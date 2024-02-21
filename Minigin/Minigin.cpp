@@ -10,6 +10,9 @@
 #include "Renderer.h"
 #include "ResourceManager.h"
 
+#include <chrono>
+#include <thread>
+
 SDL_Window* g_window{};
 
 void PrintSDLVersion()
@@ -83,12 +86,25 @@ void dae::Minigin::Run(const std::function<void()>& load)
 	auto& sceneManager = SceneManager::GetInstance();
 	auto& input = InputManager::GetInstance();
 
-	// todo: this update loop could use some work.
+	//We take a lower MPS to get a higher FPS (MPS is inverse FPS)
+	const std::chrono::milliseconds ms_per_frame{ 10 };
+
+	auto last_time = std::chrono::high_resolution_clock::now();
+	
 	bool doContinue = true;
 	while (doContinue)
 	{
+		const auto current_time = std::chrono::high_resolution_clock::now();
+
+		auto passing_time{current_time - last_time};
+		const float delta_time = std::chrono::duration<float, std::milli>(passing_time).count();
+		last_time = current_time;
+
 		doContinue = input.ProcessInput();
-		sceneManager.Update();
+		sceneManager.Update(delta_time);
 		renderer.Render();
+
+		const auto sleep_time = current_time + std::chrono::milliseconds(ms_per_frame) - std::chrono::high_resolution_clock::now();
+		std::this_thread::sleep_for(sleep_time);
 	}
 }
