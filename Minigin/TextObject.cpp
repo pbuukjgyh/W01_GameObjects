@@ -31,7 +31,7 @@ void dae::TextObject::Update(float /*deltaTime*/)
 	}
 }
 
-void dae::TextObject::Render(glm::vec3 ownerPos) const
+void dae::TextObject::Render(const glm::vec3& ownerPos) const
 {
 	if (m_textTexture != nullptr)
 	{

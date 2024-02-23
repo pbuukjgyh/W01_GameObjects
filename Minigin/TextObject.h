@@ -12,7 +12,7 @@ namespace dae
 	{
 	public:
 		void Update(float deltaTime) override;
-		void Render(glm::vec3 ownerPos) const override;
+		void Render(const glm::vec3& ownerPos) const override;
 
 		void SetText(const std::string& text);
 		void SetPosition(float x, float y);

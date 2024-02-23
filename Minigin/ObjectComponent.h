@@ -13,7 +13,9 @@ public:
 	ObjectComponent& operator=(ObjectComponent&& toMove) = delete;
 
 	virtual void Update(float deltaTime);
-	virtual void Render(glm::vec3 ownerPos) const;
+	virtual void Render(const glm::vec3& ownerPos) const;
+
+	void SetTransform(const dae::Transform& newTransform) { m_transform = newTransform; }
 
 protected:
 	//The local transform: how far away is this component from it's owner
