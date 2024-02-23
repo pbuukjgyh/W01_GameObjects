@@ -9,7 +9,7 @@ TextureComponent::TextureComponent(const std::string& fileName):
 
 void TextureComponent::ChangeTexture(const std::string& newFileName)
 {
-	dae::ResourceManager::GetInstance().LoadTexture(newFileName);
+	m_pTexture = dae::ResourceManager::GetInstance().LoadTexture(newFileName);
 }
 
 void TextureComponent::Update(float /*deltaTime*/)

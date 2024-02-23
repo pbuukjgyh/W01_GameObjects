@@ -35,7 +35,11 @@ void Scene::Update(float deltaTime)
 		{
 			object->Update(deltaTime);
 
-			object->RemoveComponents<TextureComponent>();
+			auto vect = object->GetComponents<TextureComponent>();
+			if (!vect.empty())
+			{
+				vect[0]->ChangeTexture("background.tga");
+			}
 		}
 	}
 }
