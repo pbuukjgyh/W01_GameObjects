@@ -34,12 +34,6 @@ void Scene::Update(float deltaTime)
 		for (auto& object : m_objects)
 		{
 			object->Update(deltaTime);
-
-			auto comp = object->GetComponent<TextureComponent>();
-			if (comp != nullptr)
-			{
-				comp->ChangeTexture("background.tga");
-			}
 		}
 	}
 }

@@ -56,6 +56,12 @@ namespace dae
 			return nullptr;
 		}
 
+		template <typename T>
+		bool HasComponent()
+		{
+			return GetComponent<T>() != nullptr;
+		}
+
 		GameObject() = default;
 		GameObject(const std::vector<std::shared_ptr<ObjectComponent>>& startComponents);
 		~GameObject();
