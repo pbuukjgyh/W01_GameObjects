@@ -31,12 +31,12 @@ void dae::TextObject::Update(float /*deltaTime*/)
 	}
 }
 
-void dae::TextObject::Render() const
+void dae::TextObject::Render(glm::vec3 ownerPos) const
 {
 	if (m_textTexture != nullptr)
 	{
-		const auto& pos = m_transform.GetPosition();
-		Renderer::GetInstance().RenderTexture(*m_textTexture, pos.x, pos.y);
+		const auto& localPos{ m_transform.GetPosition() };
+		Renderer::GetInstance().RenderTexture(*m_textTexture, ownerPos.x + localPos.x, ownerPos.y + localPos.y);
 	}
 }
 

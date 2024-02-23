@@ -28,17 +28,23 @@ void Scene::RemoveAll()
 
 void Scene::Update(float deltaTime)
 {
-	for(auto& object : m_objects)
+	if(!m_objects.empty())
 	{
-		object->Update(deltaTime);
+		for (auto& object : m_objects)
+		{
+			object->Update(deltaTime);
+		}
 	}
 }
 
 void Scene::Render() const
 {
-	for (const auto& object : m_objects)
+	if(!m_objects.empty())
 	{
-		object->Render();
+		for (const auto& object : m_objects)
+		{
+			object->Render();
+		}
 	}
 }
 
