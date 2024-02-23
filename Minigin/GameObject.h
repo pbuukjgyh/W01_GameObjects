@@ -18,6 +18,16 @@ namespace dae
 		void SetPosition(float x, float y);
 
 		void AddComponent(const std::shared_ptr<ObjectComponent>& newComponent);
+		//Removes all component of type
+		template <typename T>
+		void RemoveComponents()
+		{
+			m_pComponents.erase(std::remove_if(m_pComponents.begin(), m_pComponents.end(),
+				[](const std::shared_ptr<ObjectComponent>& comp)
+				{
+					return dynamic_cast<T*>(comp.get()) != nullptr;
+				}), m_pComponents.end());
+		}
 
 		GameObject() = default;
 		GameObject(const std::vector<std::shared_ptr<ObjectComponent>>& startComponents);

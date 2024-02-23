@@ -1,5 +1,6 @@
 #include "Scene.h"
 #include "GameObject.h"
+#include "TextureComponent.h"
 
 #include <algorithm>
 
@@ -33,6 +34,8 @@ void Scene::Update(float deltaTime)
 		for (auto& object : m_objects)
 		{
 			object->Update(deltaTime);
+
+			object->RemoveComponents<TextureComponent>();
 		}
 	}
 }
