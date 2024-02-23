@@ -1,17 +1,17 @@
 #pragma once
 #include <string>
 #include <memory>
-#include "GameObject.h"
+#include "ObjectComponent.h"
 #include "Transform.h"
 
 namespace dae
 {
 	class Font;
 	class Texture2D;
-	class TextObject final : public GameObject
+	class TextObject final : public ObjectComponent
 	{
 	public:
-		void Update() override;
+		void Update(float deltaTime) override;
 		void Render() const override;
 
 		void SetText(const std::string& text);

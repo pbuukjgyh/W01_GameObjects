@@ -5,7 +5,7 @@ void dae::SceneManager::Update(float deltaTime)
 {
 	for(auto& scene : m_scenes)
 	{
-		scene->Update();
+		scene->Update(deltaTime);
 	}
 }
 

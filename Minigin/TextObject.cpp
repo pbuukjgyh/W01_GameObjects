@@ -9,7 +9,8 @@ dae::TextObject::TextObject(const std::string& text, std::shared_ptr<Font> font)
 	: m_needsUpdate(true), m_text(text), m_font(std::move(font)), m_textTexture(nullptr)
 { }
 
-void dae::TextObject::Update()
+//we acknowledge that a float exists but we don't refrence it so we don't give it a name to be refrenced
+void dae::TextObject::Update(float /*deltaTime*/)
 {
 	if (m_needsUpdate)
 	{
