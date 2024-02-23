@@ -42,6 +42,19 @@ namespace dae
 			}
 			return components;
 		}
+		//returns the first of a type
+		template <typename T>
+		std::shared_ptr<T> GetComponent()
+		{
+			std::vector<std::shared_ptr<T>> components;
+			for (const auto& pComp : m_pComponents) {
+				if (std::shared_ptr<T> pDerived = std::dynamic_pointer_cast<T>(pComp))
+				{
+					return pDerived;
+				}
+			}
+			return nullptr;
+		}
 
 		GameObject() = default;
 		GameObject(const std::vector<std::shared_ptr<ObjectComponent>>& startComponents);
