@@ -7,8 +7,8 @@ void FPSComponent::Update(float deltaTime)
     m_elapsedTime += deltaTime;
 
     float second{ 1000 };
-    // If a milisecond has passed we calculate FPS
-    if (m_elapsedTime >= second/10) 
+    // If a second has passed we calculate FPS
+    if (m_elapsedTime >= second) 
     {
         m_FPS = float(m_frameCount) / (m_elapsedTime / second);
 
@@ -18,6 +18,6 @@ void FPSComponent::Update(float deltaTime)
     }
 }
 
-void FPSComponent::Render(const glm::vec3& /*ownerPos*/) const
+void FPSComponent::Render() const
 {
 }

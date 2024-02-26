@@ -21,11 +21,9 @@ void dae::GameObject::Update(float deltaTime)
 
 void dae::GameObject::Render() const
 {
-	const auto& pos = m_transform.GetPosition();
-
 	for (const auto& component : m_pComponents)
 	{
-		component->Render(pos);
+		component->Render();
 	}
 }
 

@@ -5,7 +5,12 @@ void ObjectComponent::Update(float /*deltaTime*/)
 {
 }
 
-void ObjectComponent::Render(const glm::vec3& /*ownerPos*/) const
+void ObjectComponent::Render() const
 {
 	
+}
+
+ObjectComponent::ObjectComponent(const std::shared_ptr<dae::GameObject>& pOwner):
+	m_pOwner{pOwner}
+{
 }
