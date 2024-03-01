@@ -38,3 +38,26 @@ void dae::GameObject::AddComponent(const std::shared_ptr<ObjectComponent>& newCo
 {
 	m_pComponents.emplace_back(newComponent);
 }
+
+void dae::GameObject::SetParent(GameObject* pParent, bool worldPosStays = true)
+{
+	if (pParent == this) return;
+	for (const auto& obj : m_pChildren)
+	{
+		if (obj.get() == this) return;
+	}
+
+	//we do this first to get the parent pos before it changes
+	if (worldPosStays)
+	{
+		glm::vec3 lastParentPos{ m_pParent->m_transform.GetPosition() };
+		glm::vec3 pos{ m_transform.GetPosition() + lastParentPos };
+		m_transform.SetPosition(pos.x, pos.y, pos.z);
+	}
+
+	this->SetParent(nullptr);
+
+	m_pParent = std::make_shared<GameObject>(pParent);
+
+	m_pParent->m_pChildren.emplace_back(this);
+}

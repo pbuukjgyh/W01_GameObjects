@@ -19,6 +19,6 @@ void TextureComponent::Update(float /*deltaTime*/)
 
 void TextureComponent::Render(const glm::vec3& ownerPos) const
 {
-	glm::vec3 localPos{ m_transform.GetPosition() };
-	dae::Renderer::GetInstance().RenderTexture(*m_pTexture.get(), ownerPos.x + localPos.x, ownerPos.y + localPos.y);
+	const auto& localPos{ m_transform.GetPosition() };
+	BasicRender(m_pTexture.get(), localPos + ownerPos);
 }

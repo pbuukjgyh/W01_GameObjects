@@ -18,6 +18,10 @@ namespace dae
 		void SetPosition(float x, float y);
 
 		void AddComponent(const std::shared_ptr<ObjectComponent>& newComponent);
+
+		GameObject* GetParent() { return m_pParent.get(); }
+		void SetParent(GameObject* pParent, bool worldPosStays);
+
 		//Removes all components of type
 		template <typename T>
 		void RemoveComponents()
@@ -74,5 +78,8 @@ namespace dae
 		Transform m_transform{};
 
 		std::vector<std::shared_ptr<ObjectComponent>> m_pComponents{};
+
+		std::shared_ptr<GameObject> m_pParent{};
+		std::vector<std::shared_ptr<GameObject>> m_pChildren{};
 	};
 }
