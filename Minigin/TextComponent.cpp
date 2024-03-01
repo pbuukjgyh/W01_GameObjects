@@ -5,9 +5,12 @@
 #include "Font.h"
 #include "Texture2D.h"
 
-dae::TextComponent::TextComponent(const std::string& text, std::shared_ptr<Font> font) 
-	: m_needsUpdate(true), m_text(text), m_font(std::move(font)), m_textTexture(nullptr)
-{ }
+dae::TextComponent::TextComponent(std::shared_ptr<dae::GameObject>& pOwner, const std::string& text, std::shared_ptr<Font> font):
+	ObjectComponent(pOwner), 
+	m_needsUpdate(true), m_text(text), m_font(std::move(font)), m_textTexture(nullptr)
+{
+
+}
 
 //we acknowledge that a float exists but we don't refrence it so we don't give it a name to be refrenced
 void dae::TextComponent::Update(float /*deltaTime*/)
@@ -31,12 +34,13 @@ void dae::TextComponent::Update(float /*deltaTime*/)
 	}
 }
 
-void dae::TextComponent::Render(const glm::vec3& ownerPos) const
+void dae::TextComponent::Render() const
 {
 	if (m_textTexture != nullptr)
 	{
-		const auto& localPos{ m_transform.GetPosition() };
-		Renderer::GetInstance().RenderTexture(*m_textTexture, ownerPos.x + localPos.x, ownerPos.y + localPos.y);
+		glm::vec3 localPos{ m_transform.GetPosition() };
+		glm::vec3 ownerPos{ GetOwner()->GetPosition() };
+		dae::Renderer::GetInstance().RenderTexture(*m_textTexture.get(), ownerPos.x + localPos.x, ownerPos.y + localPos.y);
 	}
 }
 

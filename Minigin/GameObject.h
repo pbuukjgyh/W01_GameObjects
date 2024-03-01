@@ -18,6 +18,7 @@ namespace dae
 		void SetPosition(float x, float y);
 
 		void AddComponent(const std::shared_ptr<ObjectComponent>& newComponent);
+		void AddComponent(ObjectComponent* pNewComponent);
 		//Removes all components of type
 		template <typename T>
 		void RemoveComponents()
@@ -61,9 +62,19 @@ namespace dae
 		{
 			return GetComponent<T>() != nullptr;
 		}
+		template <typename T>
+		bool HasComponent(T pComponent)
+		{
+			auto it = std::find_if(m_pComponents.begin(), m_pComponents.end(),
+				[pComponent](const std::shared_ptr<ObjectComponent>& p) {
+					return p.get() == pComponent;
+				});
+			return it != m_pComponents.end();
+		}
 
-		GameObject() = default;
-		GameObject(const std::vector<std::shared_ptr<ObjectComponent>>& startComponents);
+		glm::vec3 GetPosition() const { return m_transform.GetPosition(); };
+
+		GameObject();
 		~GameObject();
 		GameObject(const GameObject& other) = delete;
 		GameObject(GameObject&& other) = delete;

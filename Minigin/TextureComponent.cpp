@@ -2,8 +2,15 @@
 #include "ResourceManager.h"
 #include "Renderer.h"
 
-TextureComponent::TextureComponent(const std::string& fileName):
+TextureComponent::TextureComponent(std::shared_ptr<dae::GameObject>& pOwner, const std::string& fileName):
+	ObjectComponent(pOwner),
 	m_pTexture{ dae::ResourceManager::GetInstance().LoadTexture(fileName)}
+{
+
+}
+
+TextureComponent::TextureComponent(std::shared_ptr<dae::GameObject>& pOwner):
+	ObjectComponent(pOwner)
 {
 }
 
@@ -17,8 +24,7 @@ void TextureComponent::Update(float /*deltaTime*/)
 	
 }
 
-void TextureComponent::Render(const glm::vec3& ownerPos) const
+void TextureComponent::Render() const
 {
-	glm::vec3 localPos{ m_transform.GetPosition() };
-	dae::Renderer::GetInstance().RenderTexture(*m_pTexture.get(), ownerPos.x + localPos.x, ownerPos.y + localPos.y);
+	BasicRender(m_pTexture.get());
 }

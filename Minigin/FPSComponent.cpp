@@ -1,5 +1,10 @@
 #include "FPSComponent.h"
 
+FPSComponent::FPSComponent(std::shared_ptr<dae::GameObject>& pOwner):
+    ObjectComponent(pOwner)
+{
+}
+
 void FPSComponent::Update(float deltaTime)
 {
     m_frameCount++;
@@ -18,6 +23,6 @@ void FPSComponent::Update(float deltaTime)
     }
 }
 
-void FPSComponent::Render(const glm::vec3& /*ownerPos*/) const
+void FPSComponent::Render() const
 {
 }

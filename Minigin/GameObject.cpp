@@ -3,8 +3,7 @@
 #include "Renderer.h"
 #include "ObjectComponent.h"
 
-dae::GameObject::GameObject(const std::vector<std::shared_ptr<ObjectComponent>>& startComponents):
-	m_pComponents{startComponents}
+dae::GameObject::GameObject()
 {
 
 }
@@ -21,11 +20,9 @@ void dae::GameObject::Update(float deltaTime)
 
 void dae::GameObject::Render() const
 {
-	const auto& pos = m_transform.GetPosition();
-
 	for (const auto& component : m_pComponents)
 	{
-		component->Render(pos);
+		component->Render();
 	}
 }
 
@@ -37,4 +34,13 @@ void dae::GameObject::SetPosition(float x, float y)
 void dae::GameObject::AddComponent(const std::shared_ptr<ObjectComponent>& newComponent)
 {
 	m_pComponents.emplace_back(newComponent);
+
+	//if we haven't set our owner jet, we can do it now
+	//m_pComponents[m_pComponents.size() - 1]->InitializeOwner(this);
+}
+
+void dae::GameObject::AddComponent(ObjectComponent* pNewComponent)
+{
+	std::shared_ptr<ObjectComponent> pObjectComponent(pNewComponent);
+	AddComponent(pObjectComponent);
 }

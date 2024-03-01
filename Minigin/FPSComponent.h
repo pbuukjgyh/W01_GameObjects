@@ -5,7 +5,7 @@
 class FPSComponent: public ObjectComponent
 {
 public:
-	FPSComponent() = default;
+	FPSComponent(std::shared_ptr<dae::GameObject>& pOwner);
 	virtual ~FPSComponent() = default;
 	FPSComponent(const FPSComponent& copy) = delete;
 	FPSComponent(FPSComponent&& move) = delete;
@@ -13,7 +13,7 @@ public:
 	FPSComponent& operator=(FPSComponent&& toMove) = delete;
 
 	virtual void Update(float deltaTime) override;
-	virtual void Render(const glm::vec3& ownerPos) const override;
+	virtual void Render() const override;
 
 	float GetFPS() { return m_FPS; }
 private:
