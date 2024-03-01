@@ -62,10 +62,7 @@ namespace dae
 			return GetComponent<T>() != nullptr;
 		}
 
-		glm::vec3 GetPosition() const { return m_transform.GetPosition(); }
-
 		GameObject() = default;
-
 		GameObject(const std::vector<std::shared_ptr<ObjectComponent>>& startComponents);
 		~GameObject();
 		GameObject(const GameObject& other) = delete;

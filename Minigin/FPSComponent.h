@@ -13,7 +13,7 @@ public:
 	FPSComponent& operator=(FPSComponent&& toMove) = delete;
 
 	virtual void Update(float deltaTime) override;
-	virtual void Render() const override;
+	virtual void Render(const glm::vec3& ownerPos) const override;
 
 	float GetFPS() { return m_FPS; }
 private:

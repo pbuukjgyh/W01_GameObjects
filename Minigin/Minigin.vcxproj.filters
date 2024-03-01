@@ -60,7 +60,7 @@
     <ClInclude Include="ObjectComponent.h">
       <Filter>Components\Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="TextComponent.h">
+    <ClInclude Include="TextObject.h">
       <Filter>Components\Header Files</Filter>
     </ClInclude>
     <ClInclude Include="TextureComponent.h">
@@ -107,7 +107,7 @@
     <ClCompile Include="ObjectComponent.cpp">
       <Filter>Components\Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="TextComponent.cpp">
+    <ClCompile Include="TextObject.cpp">
       <Filter>Components\Source Files</Filter>
     </ClCompile>
     <ClCompile Include="TextureComponent.cpp">
