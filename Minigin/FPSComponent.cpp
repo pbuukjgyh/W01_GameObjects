@@ -7,8 +7,8 @@ void FPSComponent::Update(float deltaTime)
     m_elapsedTime += deltaTime;
 
     float second{ 1000 };
-    // If a second has passed we calculate FPS
-    if (m_elapsedTime >= second) 
+    // If a milisecond has passed we calculate FPS
+    if (m_elapsedTime >= second/10) 
     {
         m_FPS = float(m_frameCount) / (m_elapsedTime / second);
 

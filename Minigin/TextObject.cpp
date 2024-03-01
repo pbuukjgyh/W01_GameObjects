@@ -1,16 +1,16 @@
 #include <stdexcept>
 #include <SDL_ttf.h>
-#include "TextComponent.h"
+#include "TextObject.h"
 #include "Renderer.h"
 #include "Font.h"
 #include "Texture2D.h"
 
-dae::TextComponent::TextComponent(const std::string& text, std::shared_ptr<Font> font) 
+dae::TextObject::TextObject(const std::string& text, std::shared_ptr<Font> font) 
 	: m_needsUpdate(true), m_text(text), m_font(std::move(font)), m_textTexture(nullptr)
 { }
 
 //we acknowledge that a float exists but we don't refrence it so we don't give it a name to be refrenced
-void dae::TextComponent::Update(float /*deltaTime*/)
+void dae::TextObject::Update(float /*deltaTime*/)
 {
 	if (m_needsUpdate)
 	{
@@ -31,7 +31,7 @@ void dae::TextComponent::Update(float /*deltaTime*/)
 	}
 }
 
-void dae::TextComponent::Render(const glm::vec3& ownerPos) const
+void dae::TextObject::Render(const glm::vec3& ownerPos) const
 {
 	if (m_textTexture != nullptr)
 	{
@@ -41,13 +41,15 @@ void dae::TextComponent::Render(const glm::vec3& ownerPos) const
 }
 
 // This implementation uses the "dirty flag" pattern
-void dae::TextComponent::SetText(const std::string& text)
+void dae::TextObject::SetText(const std::string& text)
 {
 	m_text = text;
 	m_needsUpdate = true;
 }
 
-void dae::TextComponent::SetPosition(const float x, const float y)
+void dae::TextObject::SetPosition(const float x, const float y)
 {
 	m_transform.SetPosition(x, y, 0.0f);
 }
+
+

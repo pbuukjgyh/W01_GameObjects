@@ -1,7 +1,7 @@
 #include "Scene.h"
 #include "GameObject.h"
 #include "FPSComponent.h"
-#include "TextComponent.h"
+#include "TextObject.h"
 
 #include <algorithm>
 
@@ -38,7 +38,7 @@ void Scene::Update(float deltaTime)
 
 			if (auto fps{ object->GetComponent<FPSComponent>() }; fps != nullptr)
 			{
-				if (auto text = object->GetComponent<TextComponent>(); text != nullptr)
+				if (auto text = object->GetComponent<TextObject>(); text != nullptr)
 				{
 					std::stringstream fpsText;
 					fpsText << std::fixed << std::setprecision(1) << fps->GetFPS() << " FPS";
