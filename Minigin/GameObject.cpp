@@ -71,3 +71,17 @@ std::shared_ptr<dae::GameObject> dae::GameObject::GetChildAt(int index)
 
 	return nullptr;
 }
+
+
+void dae::GameObject::AddChild(std::shared_ptr<GameObject>& pChild)
+{
+	pChild->SetParent(this);
+}
+
+void dae::GameObject::RemoveChild(std::shared_ptr<GameObject>& pChild)
+{
+	for (const auto& obj : m_pChildren)
+	{
+		if (obj.get() == pChild.get()) obj->SetParent(nullptr);
+	}
+}

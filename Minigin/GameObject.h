@@ -84,5 +84,8 @@ namespace dae
 
 		std::shared_ptr<GameObject> m_pParent{};
 		std::vector<std::shared_ptr<GameObject>> m_pChildren{};
+
+		void AddChild(std::shared_ptr<GameObject>& pChild);
+		void RemoveChild(std::shared_ptr<GameObject>& pChild);
 	};
 }
