@@ -22,6 +22,9 @@ namespace dae
 		GameObject* GetParent() { return m_pParent.get(); }
 		void SetParent(GameObject* pParent, bool worldPosStays);
 
+		int GetChildCount() { return m_pChildren.size(); }
+		std::shared_ptr<GameObject> GetChildAt(int index);
+
 		//Removes all components of type
 		template <typename T>
 		void RemoveComponents()

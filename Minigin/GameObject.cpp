@@ -61,3 +61,13 @@ void dae::GameObject::SetParent(GameObject* pParent, bool worldPosStays = true)
 
 	m_pParent->m_pChildren.emplace_back(this);
 }
+
+std::shared_ptr<dae::GameObject> dae::GameObject::GetChildAt(int index)
+{
+	if (index < m_pChildren.size())
+	{
+		return m_pChildren[index];
+	}
+
+	return nullptr;
+}
