@@ -1,6 +1,7 @@
 #pragma once
 #include <glm\vec3.hpp>
 #include "Transform.h"
+#include "GameObject.h"
 
 class ObjectComponent
 {
@@ -20,5 +21,7 @@ public:
 protected:
 	//The local transform: how far away is this component from it's owner
 	dae::Transform m_transform{};
+
+	dae::GameObject* m_pParent{};
 };
 
