@@ -22,7 +22,7 @@ namespace dae
 		GameObject* GetParent() { return m_pParent.get(); }
 		void SetParent(GameObject* pParent, bool worldPosStays);
 
-		int GetChildCount() { return m_pChildren.size(); }
+		int GetChildCount() { return int(m_pChildren.size()); }
 		std::shared_ptr<GameObject> GetChildAt(int index);
 
 		//Removes all components of type
@@ -69,6 +69,9 @@ namespace dae
 			return GetComponent<T>() != nullptr;
 		}
 
+		void Destroy() { m_shouldDestroy = true; }
+		bool IsBeingDestroyed() { return m_shouldDestroy; }
+
 		GameObject() = default;
 		GameObject(const std::vector<std::shared_ptr<ObjectComponent>>& startComponents);
 		~GameObject();
@@ -78,6 +81,8 @@ namespace dae
 		GameObject& operator=(GameObject&& other) = delete;
 
 	private:
+		bool m_shouldDestroy{ false };
+
 		Transform m_transform{};
 
 		std::vector<std::shared_ptr<ObjectComponent>> m_pComponents{};

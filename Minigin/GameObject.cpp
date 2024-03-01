@@ -57,8 +57,6 @@ void dae::GameObject::SetParent(GameObject* pParent, bool worldPosStays = true)
 
 	this->SetParent(nullptr);
 
-	m_pParent = std::make_shared<GameObject>(pParent);
-
 	m_pParent->m_pChildren.emplace_back(this);
 }
 
