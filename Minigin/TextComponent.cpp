@@ -31,10 +31,9 @@ void dae::TextComponent::Update(float /*deltaTime*/)
 	}
 }
 
-void dae::TextComponent::Render(const glm::vec3& ownerPos) const
+void dae::TextComponent::Render() const
 {
-	const auto& localPos{ GetPosition() };
-	BasicRender(m_textTexture.get(),localPos + ownerPos);
+	BasicRender(m_textTexture.get(),m_transform.GetPosition());
 }
 
 // This implementation uses the "dirty flag" pattern

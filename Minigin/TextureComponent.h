@@ -19,7 +19,7 @@ public:
 	void ChangeTexture(const std::string& newFileName);
 
 	void Update(float deltaTime) override;
-	void Render(const glm::vec3& ownerPos) const override;
+	void Render() const override;
 
 public:
 	std::shared_ptr<dae::Texture2D> m_pTexture{};

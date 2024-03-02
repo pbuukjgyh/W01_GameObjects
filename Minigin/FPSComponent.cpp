@@ -18,6 +18,6 @@ void FPSComponent::Update(float deltaTime)
     }
 }
 
-void FPSComponent::Render(const glm::vec3& /*ownerPos*/) const
+void FPSComponent::Render() const
 {
 }

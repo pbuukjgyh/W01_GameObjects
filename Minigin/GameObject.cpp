@@ -6,7 +6,10 @@
 dae::GameObject::GameObject(const std::vector<std::shared_ptr<ObjectComponent>>& startComponents):
 	m_pComponents{startComponents}
 {
-
+	for (auto& component : m_pComponents)
+	{
+		component->SetPosition(m_transform.GetPosition() + component->GetPosition());
+	}
 }
 
 dae::GameObject::~GameObject() = default;
@@ -21,11 +24,9 @@ void dae::GameObject::Update(float deltaTime)
 
 void dae::GameObject::Render() const
 {
-	const auto& pos = m_transform.GetPosition();
-
 	for (const auto& component : m_pComponents)
 	{
-		component->Render(pos);
+		component->Render();
 	}
 }
 
