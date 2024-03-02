@@ -67,7 +67,7 @@ void dae::GameObject::SetParent(GameObject* pParent, bool worldPosStays)
 
 	if (m_pParent) m_pParent->RemoveChild(this);
 	m_pParent = std::shared_ptr<GameObject>(pParent);
-	if (m_pParent) m_pParent->AddChild(this);
+	if (m_pParent) m_pChildren.emplace_back(m_pParent);
 }
 
 std::shared_ptr<dae::GameObject> dae::GameObject::GetChildAt(int index)
