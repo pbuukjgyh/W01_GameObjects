@@ -8,7 +8,7 @@ dae::GameObject::GameObject(const std::vector<std::shared_ptr<ObjectComponent>>&
 {
 	for (auto& component : m_pComponents)
 	{
-		component->SetPosition(m_transform.GetPosition() + component->GetPosition());
+		component->SetPosition(GetWorldPosition() + m_localPosition + component->GetPosition());
 	}
 }
 
@@ -32,7 +32,12 @@ void dae::GameObject::Render() const
 
 void dae::GameObject::SetPosition(float x, float y)
 {
-	m_transform.SetPosition(x, y, 0.0f);
+	m_localPosition = glm::vec3(x, y, 0.0f);
+
+	for (auto& component : m_pComponents)
+	{
+		component->SetPosition(GetWorldPosition() + m_localPosition + component->GetPosition());
+	}
 }
 
 void dae::GameObject::AddComponent(const std::shared_ptr<ObjectComponent>& newComponent)
@@ -42,23 +47,24 @@ void dae::GameObject::AddComponent(const std::shared_ptr<ObjectComponent>& newCo
 
 void dae::GameObject::SetParent(GameObject* pParent, bool worldPosStays = true)
 {
-	if (pParent == this) return;
+	if (pParent == this || pParent == m_pParent.get()) return;
 	for (const auto& obj : m_pChildren)
 	{
 		if (obj.get() == this) return;
 	}
 
-	//we do this first to get the parent pos before it changes
-	if (worldPosStays)
+	if (pParent == nullptr)
+		SetLocalPosition(GetWorldPosition());
+	else
 	{
-		glm::vec3 lastParentPos{ m_pParent->m_transform.GetPosition() };
-		glm::vec3 pos{ m_transform.GetPosition() + lastParentPos };
-		m_transform.SetPosition(pos.x, pos.y, pos.z);
+		if (worldPosStays)
+			SetLocalPosition(GetWorldPosition() - pParent->GetWorldPosition());
+		SetPositionDirty();
 	}
 
-	this->SetParent(nullptr);
-
-	m_pParent->m_pChildren.emplace_back(this);
+	if (m_pParent) m_pParent->RemoveChild(this);
+	m_pParent = std::shared_ptr<GameObject>(pParent);
+	if (m_pParent) m_pParent->AddChild(this);
 }
 
 std::shared_ptr<dae::GameObject> dae::GameObject::GetChildAt(int index)
@@ -71,16 +77,41 @@ std::shared_ptr<dae::GameObject> dae::GameObject::GetChildAt(int index)
 	return nullptr;
 }
 
+void dae::GameObject::SetLocalPosition(const glm::vec3& pos)
+{
+	m_localPosition = pos;
+	SetPositionDirty();
+}
 
-void dae::GameObject::AddChild(std::shared_ptr<GameObject>& pChild)
+
+void dae::GameObject::AddChild(GameObject* pChild)
 {
 	pChild->SetParent(this);
 }
 
-void dae::GameObject::RemoveChild(std::shared_ptr<GameObject>& pChild)
+void dae::GameObject::RemoveChild(GameObject* pChild)
 {
 	for (const auto& obj : m_pChildren)
 	{
-		if (obj.get() == pChild.get()) obj->SetParent(nullptr);
+		if (obj.get() == pChild) obj->SetParent(nullptr);
 	}
+}
+
+glm::vec3& dae::GameObject::GetWorldPosition()
+{
+	if (m_ShouldUpdateTransform)
+		UpdateWorldPosition();
+	return m_worldPosition;
+}
+
+void dae::GameObject::UpdateWorldPosition()
+{
+	if (m_ShouldUpdateTransform)
+	{
+		if (m_pParent == nullptr)
+			m_worldPosition = m_localPosition;
+		else
+			m_worldPosition = m_pParent->GetWorldPosition() + m_localPosition;
+	}
+	m_ShouldUpdateTransform = false;
 }

@@ -18,6 +18,8 @@ public:
 
 	void SetTransform(const dae::Transform& newTransform) { m_transform = newTransform; }
 	void SetPosition(const glm::vec3& newPos);
+	void SetPosition(float x, float y, float z);
+	void SetPosition(float x, float y);
 	glm::vec3 GetPosition() const { return m_transform.GetPosition(); }
 
 protected:

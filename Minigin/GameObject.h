@@ -11,6 +11,7 @@ namespace dae
 
 	class GameObject final
 	{
+		bool m_ShouldUpdateTransform;
 	public:
 		void Update(float deltaTime);
 		void Render() const;
@@ -24,6 +25,9 @@ namespace dae
 
 		int GetChildCount() { return int(m_pChildren.size()); }
 		std::shared_ptr<GameObject> GetChildAt(int index);
+
+		void SetLocalPosition(const glm::vec3& pos);
+
 
 		//Removes all components of type
 		template <typename T>
@@ -72,6 +76,10 @@ namespace dae
 		void Destroy() { m_shouldDestroy = true; }
 		bool IsBeingDestroyed() { return m_shouldDestroy; }
 
+		void SetPositionDirty() { m_ShouldUpdateTransform = true; }
+		glm::vec3& GetWorldPosition();
+		void UpdateWorldPosition();
+
 		GameObject() = default;
 		GameObject(const std::vector<std::shared_ptr<ObjectComponent>>& startComponents);
 		~GameObject();
@@ -83,14 +91,15 @@ namespace dae
 	private:
 		bool m_shouldDestroy{ false };
 
-		Transform m_transform{};
+		glm::vec3 m_localPosition{};
+		glm::vec3 m_worldPosition{};
 
 		std::vector<std::shared_ptr<ObjectComponent>> m_pComponents{};
 
 		std::shared_ptr<GameObject> m_pParent{};
 		std::vector<std::shared_ptr<GameObject>> m_pChildren{};
 
-		void AddChild(std::shared_ptr<GameObject>& pChild);
-		void RemoveChild(std::shared_ptr<GameObject>& pChild);
+		void AddChild(GameObject* pChild);
+		void RemoveChild(GameObject* pChild);
 	};
 }
