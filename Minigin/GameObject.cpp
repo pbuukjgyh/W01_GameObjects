@@ -20,6 +20,10 @@ void dae::GameObject::Update(float deltaTime)
 	{
 		component->Update(deltaTime);
 	}
+	for (const auto& child : m_pChildren)
+	{
+		child->Update(deltaTime);
+	}
 }
 
 void dae::GameObject::Render() const
@@ -27,6 +31,10 @@ void dae::GameObject::Render() const
 	for (const auto& component : m_pComponents)
 	{
 		component->Render();
+	}
+	for (const auto& child : m_pChildren)
+	{
+		child->Render();
 	}
 }
 
