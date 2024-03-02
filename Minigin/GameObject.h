@@ -16,12 +16,12 @@ namespace dae
 		void Update(float deltaTime);
 		void Render() const;
 
-		void SetPosition(float x, float y);
+		void SetLocalPosition(float x, float y);
 
 		void AddComponent(const std::shared_ptr<ObjectComponent>& newComponent);
 
 		GameObject* GetParent() { return m_pParent.get(); }
-		void SetParent(GameObject* pParent, bool worldPosStays);
+		void SetParent(GameObject* pParent, bool worldPosStays = true);
 
 		int GetChildCount() { return int(m_pChildren.size()); }
 		std::shared_ptr<GameObject> GetChildAt(int index);

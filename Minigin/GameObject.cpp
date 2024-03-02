@@ -38,14 +38,9 @@ void dae::GameObject::Render() const
 	}
 }
 
-void dae::GameObject::SetPosition(float x, float y)
+void dae::GameObject::SetLocalPosition(float x, float y)
 {
-	m_localPosition = glm::vec3(x, y, 0.0f);
-
-	for (auto& component : m_pComponents)
-	{
-		component->SetPosition(GetWorldPosition() + m_localPosition + component->GetPosition());
-	}
+	SetLocalPosition(glm::vec3(x, y, 0));
 }
 
 void dae::GameObject::AddComponent(const std::shared_ptr<ObjectComponent>& newComponent)
@@ -53,7 +48,7 @@ void dae::GameObject::AddComponent(const std::shared_ptr<ObjectComponent>& newCo
 	m_pComponents.emplace_back(newComponent);
 }
 
-void dae::GameObject::SetParent(GameObject* pParent, bool worldPosStays = true)
+void dae::GameObject::SetParent(GameObject* pParent, bool worldPosStays)
 {
 	if (pParent == this || pParent == m_pParent.get()) return;
 	for (const auto& obj : m_pChildren)
@@ -88,6 +83,12 @@ std::shared_ptr<dae::GameObject> dae::GameObject::GetChildAt(int index)
 void dae::GameObject::SetLocalPosition(const glm::vec3& pos)
 {
 	m_localPosition = pos;
+
+	for (auto& component : m_pComponents)
+	{
+		component->SetPosition(GetWorldPosition() + m_localPosition);
+	}
+
 	SetPositionDirty();
 }
 
