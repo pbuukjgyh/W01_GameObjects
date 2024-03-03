@@ -21,7 +21,7 @@ namespace dae
 		void AddComponent(const std::shared_ptr<ObjectComponent>& newComponent);
 
 		GameObject* GetParent() { return m_pParent.get(); }
-		void SetParent(std::shared_ptr<GameObject>& pParent, bool worldPosStays = true);
+		void SetParent(GameObject* pParent, bool worldPosStays = true);
 
 		int GetChildCount() { return int(m_pChildren.size()); }
 		std::shared_ptr<GameObject> GetChildAt(int index);
@@ -99,7 +99,7 @@ namespace dae
 		std::shared_ptr<GameObject> m_pParent{};
 		std::vector<std::shared_ptr<GameObject>> m_pChildren{};
 
-		void AddChild(std::shared_ptr<GameObject>& pChild);
-		void RemoveChild(std::shared_ptr<GameObject>& pChild);
+		void AddChild(GameObject* pChild);
+		void RemoveChild(GameObject* pChild);
 	};
 }

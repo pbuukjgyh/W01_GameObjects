@@ -1,11 +1,13 @@
 #pragma once
 #include "ObjectComponent.h"
 #include <chrono>
+#include "TextComponent.h"
+#include "ResourceManager.h"
 
-class FPSComponent: public ObjectComponent
+class FPSComponent: public dae::TextComponent
 {
 public:
-	FPSComponent() = default;
+	FPSComponent() :TextComponent(" ", dae::ResourceManager::GetInstance().LoadFont("Lingua.otf", 36)) {};
 	virtual ~FPSComponent() = default;
 	FPSComponent(const FPSComponent& copy) = delete;
 	FPSComponent(FPSComponent&& move) = delete;
@@ -15,7 +17,6 @@ public:
 	virtual void Update(float deltaTime) override;
 	virtual void Render() const override;
 
-	float GetFPS() { return m_FPS; }
 private:
 	int m_frameCount{};
 	float m_elapsedTime{};

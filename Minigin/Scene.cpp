@@ -35,17 +35,6 @@ void Scene::Update(float deltaTime)
 		for (auto& object : m_objects)
 		{
 			object->Update(deltaTime);
-
-			if (auto fps{ object->GetComponent<FPSComponent>() }; fps != nullptr)
-			{
-				if (auto text = object->GetComponent<TextComponent>(); text != nullptr)
-				{
-					std::stringstream fpsText;
-					fpsText << std::fixed << std::setprecision(1) << fps->GetFPS() << " FPS";
-
-					text->SetText(fpsText.str());
-				}
-			}
 		}
 
 		m_objects.erase(std::remove_if(m_objects.begin(), m_objects.end(), [](std::shared_ptr<GameObject> obj) { return obj->IsBeingDestroyed(); }), m_objects.end());

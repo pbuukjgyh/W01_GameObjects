@@ -48,9 +48,9 @@ void dae::GameObject::AddComponent(const std::shared_ptr<ObjectComponent>& newCo
 	m_pComponents.emplace_back(newComponent);
 }
 
-void dae::GameObject::SetParent(std::shared_ptr<GameObject>& pParent, bool worldPosStays)
+void dae::GameObject::SetParent(GameObject* pParent, bool worldPosStays)
 {
-	if (pParent.get() == this || pParent == m_pParent) return;
+	if (pParent == this || pParent == m_pParent.get()) return;
 	for (const auto& obj : m_pChildren)
 	{
 		if (obj.get() == this) return;
@@ -67,7 +67,7 @@ void dae::GameObject::SetParent(std::shared_ptr<GameObject>& pParent, bool world
 
 	if (m_pParent) m_pParent->RemoveChild(this);
 	m_pParent = std::shared_ptr<GameObject>(pParent);
-	if (m_pParent) m_pChildren.emplace_back(m_pParent);
+	if (m_pParent) m_pParent->m_pChildren.emplace_back(this);
 }
 
 std::shared_ptr<dae::GameObject> dae::GameObject::GetChildAt(int index)
@@ -93,16 +93,16 @@ void dae::GameObject::SetLocalPosition(const glm::vec3& pos)
 }
 
 
-void dae::GameObject::AddChild(std::shared_ptr<GameObject>& pChild)
+void dae::GameObject::AddChild(GameObject* pChild)
 {
-	pChild->SetParent(std::shared_ptr<GameObject>(this));
+	pChild->SetParent(this);
 }
 
-void dae::GameObject::RemoveChild(std::shared_ptr<GameObject>& pChild)
+void dae::GameObject::RemoveChild(GameObject* pChild)
 {
 	for (const auto& obj : m_pChildren)
 	{
-		if (obj == pChild) obj->SetParent(nullptr);
+		if (obj.get() == pChild) obj->SetParent(nullptr);
 	}
 }
 
