@@ -18,16 +18,18 @@ namespace dae
 
 		void SetLocalPosition(float x, float y);
 
-		void AddComponent(const std::shared_ptr<ObjectComponent>& newComponent);
+		void AddComponent(ObjectComponent* newComponent);
 
 		GameObject* GetParent() { return m_pParent.get(); }
 		void SetParent(GameObject* pParent, bool worldPosStays = true);
+
+		void AddChild(GameObject* pChild);
+		void RemoveChild(GameObject* pChild);
 
 		int GetChildCount() { return int(m_pChildren.size()); }
 		std::shared_ptr<GameObject> GetChildAt(int index);
 
 		void SetLocalPosition(const glm::vec3& pos);
-
 
 		//Removes all components of type
 		template <typename T>
@@ -98,8 +100,5 @@ namespace dae
 
 		std::shared_ptr<GameObject> m_pParent{};
 		std::vector<std::shared_ptr<GameObject>> m_pChildren{};
-
-		void AddChild(GameObject* pChild);
-		void RemoveChild(GameObject* pChild);
 	};
 }

@@ -7,7 +7,7 @@
 class FPSComponent: public dae::TextComponent
 {
 public:
-	FPSComponent() :TextComponent(" ", dae::ResourceManager::GetInstance().LoadFont("Lingua.otf", 36)) {};
+	FPSComponent(std::shared_ptr<dae::GameObject>& pOwner) :TextComponent(pOwner," ", dae::ResourceManager::GetInstance().LoadFont("Lingua.otf", 36)) {};
 	virtual ~FPSComponent() = default;
 	FPSComponent(const FPSComponent& copy) = delete;
 	FPSComponent(FPSComponent&& move) = delete;

@@ -43,9 +43,10 @@ void dae::GameObject::SetLocalPosition(float x, float y)
 	SetLocalPosition(glm::vec3(x, y, 0));
 }
 
-void dae::GameObject::AddComponent(const std::shared_ptr<ObjectComponent>& newComponent)
+void dae::GameObject::AddComponent(ObjectComponent* newComponent)
 {
-	m_pComponents.emplace_back(newComponent);
+	std::shared_ptr<ObjectComponent> newComponentNewSharedPtr(newComponent);
+	m_pComponents.emplace_back(newComponentNewSharedPtr);
 }
 
 void dae::GameObject::SetParent(GameObject* pParent, bool worldPosStays)
@@ -67,7 +68,7 @@ void dae::GameObject::SetParent(GameObject* pParent, bool worldPosStays)
 
 	if (m_pParent) m_pParent->RemoveChild(this);
 	m_pParent = std::shared_ptr<GameObject>(pParent);
-	if (m_pParent) m_pParent->m_pChildren.emplace_back(this);
+	if (m_pParent) m_pParent->AddChild(this);
 }
 
 std::shared_ptr<dae::GameObject> dae::GameObject::GetChildAt(int index)

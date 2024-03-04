@@ -2,7 +2,8 @@
 #include "ResourceManager.h"
 #include "Renderer.h"
 
-TextureComponent::TextureComponent(const std::string& fileName):
+TextureComponent::TextureComponent(std::shared_ptr<dae::GameObject>& pOwner,const std::string& fileName):
+	ObjectComponent(pOwner),
 	m_pTexture{ dae::ResourceManager::GetInstance().LoadTexture(fileName)}
 {
 }

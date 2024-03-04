@@ -1,10 +1,12 @@
 #include "RotatingComponent.h"
 
-RotatingComponent::RotatingComponent(dae::GameObject* pOwner): m_pOwner{pOwner}
+RotatingComponent::RotatingComponent(std::shared_ptr<dae::GameObject>& pOwner): ObjectComponent(pOwner)
 {
 	auto ownerPosition{pOwner->GetWorldPosition()};
 
 	m_middlePosition = glm::vec2(ownerPosition.x, ownerPosition.y);
+
+	m_pOwner = getOwner();
 }
 
 void RotatingComponent::Update(float deltaTime)
