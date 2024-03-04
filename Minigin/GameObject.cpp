@@ -3,15 +3,6 @@
 #include "Renderer.h"
 #include "ObjectComponent.h"
 
-dae::GameObject::GameObject(const std::vector<std::shared_ptr<ObjectComponent>>& startComponents):
-	m_pComponents{startComponents}
-{
-	for (auto& component : m_pComponents)
-	{
-		component->SetPosition(GetWorldPosition() + m_localPosition + component->GetPosition());
-	}
-}
-
 dae::GameObject::~GameObject() = default;
 
 void dae::GameObject::Update(float deltaTime)
@@ -41,12 +32,6 @@ void dae::GameObject::Render() const
 void dae::GameObject::SetLocalPosition(float x, float y)
 {
 	SetLocalPosition(glm::vec3(x, y, 0));
-}
-
-void dae::GameObject::AddComponent(ObjectComponent* newComponent)
-{
-	std::shared_ptr<ObjectComponent> newComponentNewSharedPtr(newComponent);
-	m_pComponents.emplace_back(newComponentNewSharedPtr);
 }
 
 void dae::GameObject::SetParent(GameObject* pParent, bool worldPosStays)

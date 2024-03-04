@@ -18,7 +18,16 @@ namespace dae
 
 		void SetLocalPosition(float x, float y);
 
-		void AddComponent(ObjectComponent* newComponent);
+		/*template<typename T>
+		void AddComponent(const std::shared_ptr<T>& newComponent)
+		{
+			if(std::is_base_of<ObjectComponent, T>::value)
+				m_pComponents.emplace_back(newComponent);
+		}*/
+		void AddComponent(const std::shared_ptr<ObjectComponent>& newComponent)
+		{
+			m_pComponents.emplace_back(newComponent);
+		}
 
 		GameObject* GetParent() { return m_pParent.get(); }
 		void SetParent(GameObject* pParent, bool worldPosStays = true);
