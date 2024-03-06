@@ -18,15 +18,11 @@ namespace dae
 
 		void SetLocalPosition(float x, float y);
 
-		/*template<typename T>
-		void AddComponent(const std::shared_ptr<T>& newComponent)
+		template<typename T>
+		void AddComponent(std::unique_ptr<T>& newComponent)
 		{
 			if(std::is_base_of<ObjectComponent, T>::value)
-				m_pComponents.emplace_back(newComponent);
-		}*/
-		void AddComponent(const std::shared_ptr<ObjectComponent>& newComponent)
-		{
-			m_pComponents.emplace_back(newComponent);
+				m_pComponents.emplace_back(std::move(newComponent));
 		}
 
 		GameObject* GetParent() { return m_pParent.get(); }
@@ -46,18 +42,18 @@ namespace dae
 		{
 			//sets all removable components to the back and then makes erase erase all comps in the back
 			m_pComponents.erase(std::remove_if(m_pComponents.begin(), m_pComponents.end(),
-				[](const std::shared_ptr<ObjectComponent>& comp)
+				[](const std::unique_ptr<ObjectComponent>& comp)
 				{
 					return dynamic_cast<T*>(comp.get()) != nullptr;
 				}), m_pComponents.end());
 		}
 		//returns vector of all the types
 		template <typename T>
-		std::vector<std::shared_ptr<T>> GetComponents()
+		std::vector<std::unique_ptr<T>> GetComponents()
 		{
-			std::vector<std::shared_ptr<T>> components;
+			std::vector<std::unique_ptr<T>> components;
 			for (const auto& pComp : m_pComponents) {
-				if (std::shared_ptr<T> pDerived = std::dynamic_pointer_cast<T>(pComp)) 
+				if (std::unique_ptr<T> pDerived = std::dynamic_pointer_cast<T>(pComp))
 				{
 					components.push_back(pDerived);
 				}
@@ -66,11 +62,11 @@ namespace dae
 		}
 		//returns the first of a type
 		template <typename T>
-		std::shared_ptr<T> GetComponent()
+		std::unique_ptr<T> GetComponent()
 		{
-			std::vector<std::shared_ptr<T>> components;
+			std::vector<std::unique_ptr<T>> components;
 			for (const auto& pComp : m_pComponents) {
-				if (std::shared_ptr<T> pDerived = std::dynamic_pointer_cast<T>(pComp))
+				if (std::unique_ptr<T> pDerived = std::dynamic_pointer_cast<T>(pComp))
 				{
 					return pDerived;
 				}
@@ -92,7 +88,6 @@ namespace dae
 		void UpdateWorldPosition();
 
 		GameObject() = default;
-		GameObject(const std::vector<std::shared_ptr<ObjectComponent>>& startComponents);
 		~GameObject();
 		GameObject(const GameObject& other) = delete;
 		GameObject(GameObject&& other) = delete;
@@ -105,7 +100,7 @@ namespace dae
 		glm::vec3 m_localPosition{};
 		glm::vec3 m_worldPosition{};
 
-		std::vector<std::shared_ptr<ObjectComponent>> m_pComponents{};
+		std::vector<std::unique_ptr<ObjectComponent>> m_pComponents{};
 
 		std::shared_ptr<GameObject> m_pParent{};
 		std::vector<std::shared_ptr<GameObject>> m_pChildren{};
