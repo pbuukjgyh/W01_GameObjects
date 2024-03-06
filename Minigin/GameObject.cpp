@@ -5,7 +5,10 @@
 
 dae::GameObject::~GameObject() 
 {
-	
+	for (auto& child : m_pChildren) {
+		child->SetParent(nullptr);
+	}
+	m_pChildren.clear();
 };
 
 void dae::GameObject::Update(float deltaTime)
@@ -54,7 +57,14 @@ void dae::GameObject::SetParent(GameObject* pParent, bool worldPosStays)
 		SetPositionDirty();
 	}
 
-	if (m_pParent) m_pParent->RemoveChild(this);
+	if (m_pParent)
+	{
+		m_pChildren.erase(std::remove_if(m_pChildren.begin(), m_pChildren.end(),
+			[](const std::shared_ptr<GameObject>& comp)
+			{
+				return comp.get() != nullptr;
+			}), m_pChildren.end());
+	}
 	m_pParent = std::shared_ptr<GameObject>(pParent);
 	if (m_pParent) m_pParent->m_pChildren.emplace_back(this);
 }
