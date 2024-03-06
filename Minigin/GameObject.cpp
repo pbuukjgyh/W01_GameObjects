@@ -3,13 +3,7 @@
 #include "Renderer.h"
 #include "ObjectComponent.h"
 
-dae::GameObject::~GameObject() 
-{
-	for (auto& child : m_pChildren) {
-		child->SetParent(nullptr);
-	}
-	m_pChildren.clear();
-};
+dae::GameObject::~GameObject() = default;
 
 void dae::GameObject::Update(float deltaTime)
 {
@@ -42,7 +36,8 @@ void dae::GameObject::SetLocalPosition(float x, float y)
 
 void dae::GameObject::SetParent(GameObject* pParent, bool worldPosStays)
 {
-	if (pParent == this || pParent == m_pParent.get()) return;
+	auto pParentShared = m_pParent.lock();
+	if (pParent == this || pParent == pParentShared.get()) return;
 	for (const auto& obj : m_pChildren)
 	{
 		if (obj.get() == this) return;
@@ -57,16 +52,16 @@ void dae::GameObject::SetParent(GameObject* pParent, bool worldPosStays)
 		SetPositionDirty();
 	}
 
-	if (m_pParent)
+	if (pParentShared)
 	{
-		m_pChildren.erase(std::remove_if(m_pChildren.begin(), m_pChildren.end(),
-			[](const std::shared_ptr<GameObject>& comp)
-			{
-				return comp.get() != nullptr;
-			}), m_pChildren.end());
+		for (auto it = pParentShared->m_pChildren.begin(); it != pParentShared->m_pChildren.end();++it)
+		{
+			pParentShared->m_pChildren.erase(it);
+		}
 	}
-	m_pParent = std::shared_ptr<GameObject>(pParent);
-	if (m_pParent) m_pParent->m_pChildren.emplace_back(this);
+	std::shared_ptr<GameObject> pNewParentShared(pParent);
+	m_pParent = pNewParentShared;
+	if (pNewParentShared) pNewParentShared->AddChild(this);
 }
 
 std::shared_ptr<dae::GameObject> dae::GameObject::GetChildAt(int index)
@@ -94,7 +89,8 @@ void dae::GameObject::SetLocalPosition(const glm::vec3& pos)
 
 void dae::GameObject::AddChild(GameObject* pChild)
 {
-	pChild->SetParent(this);
+	std::shared_ptr<GameObject> pShared(pChild);
+	m_pChildren.emplace_back(pShared);
 }
 
 void dae::GameObject::RemoveChild(GameObject* pChild)
@@ -125,10 +121,11 @@ void dae::GameObject::UpdateWorldPosition()
 {
 	if (m_ShouldUpdateTransform)
 	{
-		if (m_pParent == nullptr)
+		auto pParentShared = m_pParent.lock();
+		if (pParentShared == nullptr)
 			m_worldPosition = m_localPosition;
 		else
-			m_worldPosition = m_pParent->GetWorldPosition() + m_localPosition;
+			m_worldPosition = pParentShared->GetWorldPosition() + m_localPosition;
 	}
 	m_ShouldUpdateTransform = false;
 }

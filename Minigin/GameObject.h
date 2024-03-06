@@ -25,11 +25,8 @@ namespace dae
 				m_pComponents.emplace_back(std::move(newComponent));
 		}
 
-		GameObject* GetParent() { return m_pParent.get(); }
+		std::shared_ptr<GameObject>& GetParent() { auto pParentShared = m_pParent.lock(); return pParentShared; }
 		void SetParent(GameObject* pParent, bool worldPosStays = true);
-
-		void AddChild(GameObject* pChild);
-		void RemoveChild(GameObject* pChild);
 
 		int GetChildCount() { return int(m_pChildren.size()); }
 		std::shared_ptr<GameObject> GetChildAt(int index);
@@ -95,6 +92,9 @@ namespace dae
 		GameObject& operator=(GameObject&& other) = delete;
 
 	private:
+		void AddChild(GameObject* pChild);
+		void RemoveChild(GameObject* pChild);
+
 		bool m_shouldDestroy{ false };
 
 		glm::vec3 m_localPosition{};
@@ -102,7 +102,7 @@ namespace dae
 
 		std::vector<std::unique_ptr<ObjectComponent>> m_pComponents{};
 
-		std::shared_ptr<GameObject> m_pParent{};
+		std::weak_ptr<GameObject> m_pParent{};
 		std::vector<std::shared_ptr<GameObject>> m_pChildren{};
 	};
 }
