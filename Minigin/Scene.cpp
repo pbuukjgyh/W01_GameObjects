@@ -11,7 +11,14 @@ unsigned int Scene::m_idCounter = 0;
 
 Scene::Scene(const std::string& name) : m_name(name) {}
 
-Scene::~Scene() = default;
+Scene::~Scene()
+{
+	for (auto& object : m_objects)
+	{
+		//foricebly delete objects to avoid memeory leaks
+		object->~GameObject();
+	}
+}
 
 void Scene::Add(std::shared_ptr<GameObject> object)
 {

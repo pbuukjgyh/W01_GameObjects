@@ -83,7 +83,7 @@ namespace dae
 		void Destroy() { m_shouldDestroy = true; }
 		bool IsBeingDestroyed() { return m_shouldDestroy; }
 
-		void SetPositionDirty() { m_ShouldUpdateTransform = true; }
+		void SetPositionDirty();
 		glm::vec3& GetWorldPosition();
 		void UpdateWorldPosition();
 

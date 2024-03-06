@@ -3,7 +3,10 @@
 #include "Renderer.h"
 #include "ObjectComponent.h"
 
-dae::GameObject::~GameObject() = default;
+dae::GameObject::~GameObject() 
+{
+	
+};
 
 void dae::GameObject::Update(float deltaTime)
 {
@@ -53,7 +56,7 @@ void dae::GameObject::SetParent(GameObject* pParent, bool worldPosStays)
 
 	if (m_pParent) m_pParent->RemoveChild(this);
 	m_pParent = std::shared_ptr<GameObject>(pParent);
-	if (m_pParent) m_pParent->AddChild(this);
+	if (m_pParent) m_pParent->m_pChildren.emplace_back(this);
 }
 
 std::shared_ptr<dae::GameObject> dae::GameObject::GetChildAt(int index)
@@ -89,6 +92,15 @@ void dae::GameObject::RemoveChild(GameObject* pChild)
 	for (const auto& obj : m_pChildren)
 	{
 		if (obj.get() == pChild) obj->SetParent(nullptr);
+	}
+}
+
+void dae::GameObject::SetPositionDirty()
+{
+	m_ShouldUpdateTransform = true;
+	for (auto& pChild : m_pChildren) 
+	{ 
+		pChild->SetPositionDirty(); 
 	}
 }
 
