@@ -30,26 +30,20 @@ public:
 	void Update(float deltaTime);
 
 private:
-	mutable int m_samples{ 2 };
+	mutable int m_samples{ 1 };
 
 	const int sizeArr{ 10000000 };
 
 	std::vector<int> m_arrInt{};
 	std::vector<TestObject> m_arrClass{};
 
-	std::vector<long long> m_timesInt{};
-	std::vector<long long> m_timesClass{};
+	std::vector<float> m_timesInt{};
+	std::vector<float> m_timesClass{};
 
-	bool m_isLoadingInt{ false };
-	bool m_isLoadingClass{ false };
-
-	mutable bool m_startLoadingInt{ false };
-	mutable bool m_startLoadingClass{ false };
+	mutable bool m_isLoadingInt{ false };
+	mutable bool m_isLoadingClass{ false };
 
 	const std::string m_waitText{ "Wait for it..." };
-
-	ImGui::PlotConfig m_plotInt{};
-	ImGui::PlotConfig m_plotClass{};
 
 	void CalculateLoopInt();
 	void CalculateLoopClass();
