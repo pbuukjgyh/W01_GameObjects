@@ -16,6 +16,37 @@ public:
 	void Function() { m_id *= 2; }
 };
 
+class GraphSteps;
+
+template<typename T>
+struct StepArrayStruct
+{
+	mutable bool isLoading{ false };
+	mutable bool shouldReset{ false };
+
+	std::vector<float> times{};
+	std::vector<T> arr{};
+
+	StepArrayStruct(int size)
+	{
+		arr.resize(size);
+	}
+
+	bool ShouldUpdate()
+	{
+		if (isLoading)
+		{
+			if (shouldReset)
+			{
+				shouldReset = false;
+				times.clear();
+			}
+			return true;
+		}
+		return false;
+	}
+};
+
 class GraphSteps : public ObjectComponent
 {
 public:
@@ -30,20 +61,17 @@ public:
 	void Update(float deltaTime);
 
 private:
-	mutable int m_samples{ 1 };
+	mutable int m_samples{ 100 };
 
 	const int sizeArr{ 10000000 };
 
 	std::vector<int> m_arrInt{};
 	std::vector<TestObject> m_arrClass{};
 
-	std::vector<float> m_timesInt{};
-	std::vector<float> m_timesClass{};
-
-	mutable bool m_isLoadingInt{ false };
-	mutable bool m_isLoadingClass{ false };
-
 	const std::string m_waitText{ "Wait for it..." };
+
+	StepArrayStruct<int> m_intVar{sizeArr};
+	StepArrayStruct<TestObject> m_classVar{sizeArr};
 
 	void CalculateLoopInt();
 	void CalculateLoopClass();

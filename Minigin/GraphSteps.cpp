@@ -21,27 +21,31 @@ void GraphSteps::Render() const
 	{
 		ImGui::InputInt("#  samples", &m_samples, 1, 100, 1);
 
-		if (!m_isLoadingInt)
+		if (!m_intVar.isLoading)
 		{
 			if (ImGui::Button("Trash the cache with int"))
 			{
-				m_isLoadingInt = true;
+				m_intVar.isLoading = true;
+
+				m_intVar.shouldReset = true;
 			}
-			if (m_timesInt.size() > 0)
+			if (m_intVar.times.size() > 0)
 			{
-				ImGui::PlotLines(" ", m_timesInt.data(), int(m_timesInt.size()), 0, NULL, FLT_MIN, FLT_MAX, ImVec2(0, 125));
+				ImGui::PlotLines(" ", m_intVar.times.data(), int(m_intVar.times.size()), 0, NULL, FLT_MIN, FLT_MAX, ImVec2(0, 125));
 			}
 		}
 		else ImGui::Text(m_waitText.c_str());
-		if(!m_isLoadingClass)
+		if(!m_classVar.isLoading)
 		{
 			if (ImGui::Button("Trash the cache with class"))
 			{
-				m_isLoadingClass = true;
+				m_classVar.isLoading = true;
+
+				m_classVar.shouldReset = true;
 			}
-			if (m_timesClass.size() > 0)
+			if (m_classVar.times.size() > 0)
 			{
-				ImGui::PlotLines(" ", m_timesClass.data(), int(m_timesClass.size()), 0, NULL, FLT_MIN, FLT_MAX, ImVec2(0, 125));
+				ImGui::PlotLines(" ", m_classVar.times.data(), int(m_classVar.times.size()), 0, NULL, FLT_MIN, FLT_MAX, ImVec2(0, 125));
 			}
 		}
 		else ImGui::Text(m_waitText.c_str());
@@ -54,11 +58,11 @@ void GraphSteps::Render() const
 
 void GraphSteps::Update(float /*deltaTime*/)
 {
-	if (m_isLoadingInt)
+	if (m_intVar.ShouldUpdate())
 	{
 		CalculateLoopInt();
 	}
-	if (m_isLoadingClass)
+	if (m_classVar.ShouldUpdate())
 	{
 		CalculateLoopClass();
 	}
@@ -66,7 +70,7 @@ void GraphSteps::Update(float /*deltaTime*/)
 
 void GraphSteps::CalculateLoopInt()
 {
-	static int times{};
+	static int time{};
 
 	for (int stepsize{ 1 }; stepsize <= 1024; stepsize *= 2)
 	{
@@ -79,16 +83,29 @@ void GraphSteps::CalculateLoopInt()
 
 		float elapsedTime = static_cast<float>(std::chrono::duration_cast<std::chrono::microseconds>(end - start).count() / 100.0f);
 
-		m_timesInt.emplace_back(elapsedTime);
+		m_intVar.times.emplace_back(elapsedTime);
 	}
 
-	++times;
+	++time;
 
-	if(times >= m_samples)
+	if(time >= m_samples)
 	{
-		m_isLoadingInt = false;
+		const int amountInTimes{ int(log2(1024))+1 };
+		for (int index = amountInTimes; index < m_intVar.times.size(); ++index)
+		{
+			m_intVar.times[index % amountInTimes] += m_intVar.times[index];
+		}
 
-		times = 0;
+		m_intVar.times.resize(amountInTimes);
+
+		for (int index = 0; index < m_intVar.times.size(); ++index)
+		{
+			m_intVar.times[index] /= amountInTimes;
+		}
+
+		m_intVar.isLoading = false;
+
+		time = 0;
 	}
 }
 
@@ -107,14 +124,14 @@ void GraphSteps::CalculateLoopClass()
 
 		float elapsedTime = static_cast<float>(std::chrono::duration_cast<std::chrono::microseconds>(end - start).count() / 100.0f);
 
-		m_timesClass.emplace_back(elapsedTime);
+		m_classVar.times.emplace_back(elapsedTime);
 	}
 
 	++times;
 
 	if (times >= m_samples)
 	{
-		m_isLoadingClass = false;
+		m_classVar.isLoading = false;
 
 		times = 0;
 	}
