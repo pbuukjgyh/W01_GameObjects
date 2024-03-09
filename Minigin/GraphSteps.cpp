@@ -153,7 +153,7 @@ void GraphSteps::SetCombined()
 
 		m_combinedPlot.values.ys_count = 2;
 		m_combinedPlot.values.count = int(m_intVar.times.size());
-		m_combinedPlot.scale.min = 0;
-		m_combinedPlot.scale.max = std::max(m_intVar.times[m_intVar.times.size() - 1], m_classVar.times[m_classVar.times.size() - 1]);
+		m_combinedPlot.scale.min = 0.0f;
+		m_combinedPlot.scale.max = std::max(m_intVar.times[0], m_classVar.times[0]);
 	}
 }
