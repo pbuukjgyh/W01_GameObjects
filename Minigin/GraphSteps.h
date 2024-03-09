@@ -91,7 +91,7 @@ class GraphSteps : public ObjectComponent
 {
 public:
 	GraphSteps(std::shared_ptr<dae::GameObject>& pOwner);
-	~GraphSteps() { m_combinedPlot.values.ys_list = nullptr; };
+	~GraphSteps() { delete[] m_combinedPlot.values.ys_list; };
 	GraphSteps(const GraphSteps& copy) = delete;
 	GraphSteps(GraphSteps&& move) = delete;
 	GraphSteps& operator=(const GraphSteps& toCopy) = delete;
