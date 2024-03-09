@@ -5,6 +5,8 @@
 #include "..\3rdParty\imgui-1.90.4\imgui.h"
 #include "..\3rdParty\imgui-1.90.4\backends\imgui_impl_sdl2.h"
 #include "..\3rdParty\imgui-1.90.4\backends\imgui_impl_opengl3.h"
+#include "..\3rdParty\imgui-1.90.4\plot-master\imgui_plot.h"
+#include <iostream>
 
 int GetOpenGLDriverIndex()
 {
@@ -41,13 +43,6 @@ void dae::Renderer::Render() const
 	SDL_RenderClear(m_renderer);
 
 	SceneManager::GetInstance().Render();
-
-	ImGui_ImplOpenGL3_NewFrame();
-	ImGui_ImplSDL2_NewFrame();
-	ImGui::NewFrame();
-	ImGui::ShowDemoWindow();
-	ImGui::Render();
-	ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 	
 	SDL_RenderPresent(m_renderer);
 }

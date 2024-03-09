@@ -25,6 +25,9 @@
     <Filter Include="imgui">
       <UniqueIdentifier>{700abd9b-27f7-43f7-8d7d-f3e0bfbdf8f5}</UniqueIdentifier>
     </Filter>
+    <Filter Include="imgui\files">
+      <UniqueIdentifier>{ee6a1b27-ff72-4384-a905-1d4ca7c65a27}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Singleton.h">
@@ -76,30 +79,33 @@
       <Filter>Components\Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\3rdParty\imgui-1.90.4\imconfig.h">
-      <Filter>imgui</Filter>
+      <Filter>imgui\files</Filter>
     </ClInclude>
     <ClInclude Include="..\3rdParty\imgui-1.90.4\imgui.h">
-      <Filter>imgui</Filter>
-    </ClInclude>
-    <ClInclude Include="..\3rdParty\imgui-1.90.4\imgui_internal.h">
-      <Filter>imgui</Filter>
-    </ClInclude>
-    <ClInclude Include="..\3rdParty\imgui-1.90.4\imstb_rectpack.h">
-      <Filter>imgui</Filter>
-    </ClInclude>
-    <ClInclude Include="..\3rdParty\imgui-1.90.4\imstb_textedit.h">
-      <Filter>imgui</Filter>
-    </ClInclude>
-    <ClInclude Include="..\3rdParty\imgui-1.90.4\imstb_truetype.h">
-      <Filter>imgui</Filter>
+      <Filter>imgui\files</Filter>
     </ClInclude>
     <ClInclude Include="..\3rdParty\imgui-1.90.4\backends\imgui_impl_opengl3.h">
-      <Filter>imgui</Filter>
+      <Filter>imgui\files</Filter>
     </ClInclude>
     <ClInclude Include="..\3rdParty\imgui-1.90.4\backends\imgui_impl_sdl2.h">
-      <Filter>imgui</Filter>
+      <Filter>imgui\files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\3rdParty\imgui-1.90.4\imgui_internal.h">
+      <Filter>imgui\files</Filter>
     </ClInclude>
     <ClInclude Include="..\3rdParty\imgui-1.90.4\plot-master\imgui_plot.h">
+      <Filter>imgui\files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\3rdParty\imgui-1.90.4\imstb_rectpack.h">
+      <Filter>imgui\files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\3rdParty\imgui-1.90.4\imstb_textedit.h">
+      <Filter>imgui\files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\3rdParty\imgui-1.90.4\imstb_truetype.h">
+      <Filter>imgui\files</Filter>
+    </ClInclude>
+    <ClInclude Include="GraphSteps.h">
       <Filter>imgui</Filter>
     </ClInclude>
   </ItemGroup>
@@ -153,27 +159,30 @@
       <Filter>Components\Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\3rdParty\imgui-1.90.4\imgui.cpp">
-      <Filter>imgui</Filter>
+      <Filter>imgui\files</Filter>
     </ClCompile>
     <ClCompile Include="..\3rdParty\imgui-1.90.4\imgui_demo.cpp">
-      <Filter>imgui</Filter>
+      <Filter>imgui\files</Filter>
     </ClCompile>
     <ClCompile Include="..\3rdParty\imgui-1.90.4\imgui_draw.cpp">
-      <Filter>imgui</Filter>
-    </ClCompile>
-    <ClCompile Include="..\3rdParty\imgui-1.90.4\imgui_tables.cpp">
-      <Filter>imgui</Filter>
-    </ClCompile>
-    <ClCompile Include="..\3rdParty\imgui-1.90.4\imgui_widgets.cpp">
-      <Filter>imgui</Filter>
+      <Filter>imgui\files</Filter>
     </ClCompile>
     <ClCompile Include="..\3rdParty\imgui-1.90.4\backends\imgui_impl_opengl3.cpp">
-      <Filter>imgui</Filter>
+      <Filter>imgui\files</Filter>
     </ClCompile>
     <ClCompile Include="..\3rdParty\imgui-1.90.4\backends\imgui_impl_sdl2.cpp">
-      <Filter>imgui</Filter>
+      <Filter>imgui\files</Filter>
     </ClCompile>
     <ClCompile Include="..\3rdParty\imgui-1.90.4\plot-master\imgui_plot.cpp">
+      <Filter>imgui\files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\3rdParty\imgui-1.90.4\imgui_tables.cpp">
+      <Filter>imgui\files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\3rdParty\imgui-1.90.4\imgui_widgets.cpp">
+      <Filter>imgui\files</Filter>
+    </ClCompile>
+    <ClCompile Include="GraphSteps.cpp">
       <Filter>imgui</Filter>
     </ClCompile>
   </ItemGroup>
