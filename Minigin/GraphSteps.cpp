@@ -10,6 +10,19 @@ GraphSteps::GraphSteps(std::shared_ptr<dae::GameObject>& pOwner):
 {
 	m_arrInt.resize(sizeArr); 
 	m_arrClass.resize(sizeArr);
+
+	m_combinedPlot.frame_size = m_intVar.plot.frame_size;
+	m_combinedPlot.tooltip.show = true;
+	m_combinedPlot.grid_x.size = 1.0f;
+	m_combinedPlot.tooltip.format = "x=%.2f, y=%.2f";
+
+	m_combinedPlot.values.ys_list = new const float* [2];
+
+	ImU32 colors[2]{ ImColor(155, 255, 0), ImColor(255, 155, 0) };
+	m_combinedPlot.values.colors = colors;
+
+	m_intVar.plot.values.color = colors[1];
+	m_classVar.plot.values.color = colors[1];
 }
 
 void GraphSteps::Render() const
@@ -31,7 +44,7 @@ void GraphSteps::Render() const
 			}
 			if (m_intVar.times.size() > 0)
 			{
-				ImGui::PlotLines(" ", m_intVar.times.data(), int(m_intVar.times.size()), 0, NULL, FLT_MIN, FLT_MAX, ImVec2(0, 125));
+				ImGui::Plot(" ", m_intVar.plot);
 			}
 		}
 		else ImGui::Text(m_waitText.c_str());
@@ -45,10 +58,17 @@ void GraphSteps::Render() const
 			}
 			if (m_classVar.times.size() > 0)
 			{
-				ImGui::PlotLines(" ", m_classVar.times.data(), int(m_classVar.times.size()), 0, NULL, FLT_MIN, FLT_MAX, ImVec2(0, 125));
+				//ImGui::PlotLines(" ", m_classVar.times.data(), int(m_classVar.times.size()), 0, NULL, FLT_MIN, FLT_MAX, ImVec2(0, 80));
+				ImGui::Plot(" ", m_classVar.plot);
 			}
 		}
 		else ImGui::Text(m_waitText.c_str());
+
+		if (m_classVar.samples == m_intVar.samples && m_intVar.times.size() != 0 && m_classVar.times.size() != 0)
+		{
+			ImGui::Text("combined:");
+			ImGui::Plot(" ", m_combinedPlot);
+		}
 
 		ImGui::End();
 	}
@@ -70,8 +90,6 @@ void GraphSteps::Update(float /*deltaTime*/)
 
 void GraphSteps::CalculateLoopInt()
 {
-	static int time{};
-
 	for (int stepsize{ 1 }; stepsize <= 1024; stepsize *= 2)
 	{
 		auto start = std::chrono::high_resolution_clock::now();
@@ -86,33 +104,20 @@ void GraphSteps::CalculateLoopInt()
 		m_intVar.times.emplace_back(elapsedTime);
 	}
 
-	++time;
+	++m_intVar.samples;
 
-	if(time >= m_samples)
+	if(m_intVar.samples >= m_samples)
 	{
-		const int amountInTimes{ int(log2(1024))+1 };
-		for (int index = amountInTimes; index < m_intVar.times.size(); ++index)
-		{
-			m_intVar.times[index % amountInTimes] += m_intVar.times[index];
-		}
+		m_intVar.AvrageTimes();
 
-		m_intVar.times.resize(amountInTimes);
+		m_intVar.Reset();
 
-		for (int index = 0; index < m_intVar.times.size(); ++index)
-		{
-			m_intVar.times[index] /= amountInTimes;
-		}
-
-		m_intVar.isLoading = false;
-
-		time = 0;
+		SetCombined();
 	}
 }
 
 void GraphSteps::CalculateLoopClass()
 {
-	static int times{};
-
 	for (int stepsize{ 1 }; stepsize <= 1024; stepsize *= 2)
 	{
 		auto start = std::chrono::high_resolution_clock::now();
@@ -127,12 +132,28 @@ void GraphSteps::CalculateLoopClass()
 		m_classVar.times.emplace_back(elapsedTime);
 	}
 
-	++times;
+	++m_classVar.samples;
 
-	if (times >= m_samples)
+	if (m_classVar.samples >= m_samples)
 	{
-		m_classVar.isLoading = false;
+		m_classVar.AvrageTimes();
 
-		times = 0;
+		m_classVar.Reset();
+
+		SetCombined();
+	}
+}
+
+void GraphSteps::SetCombined()
+{
+	if(m_intVar.times.size() != 0 && m_classVar.times.size() != 0)
+	{
+		m_combinedPlot.values.ys_list[0] = m_intVar.times.data();
+		m_combinedPlot.values.ys_list[1] = m_classVar.times.data();
+
+		m_combinedPlot.values.ys_count = 2;
+		m_combinedPlot.values.count = int(m_intVar.times.size());
+		m_combinedPlot.scale.min = 0;
+		m_combinedPlot.scale.max = std::max(m_intVar.times[m_intVar.times.size() - 1], m_classVar.times[m_classVar.times.size() - 1]);
 	}
 }

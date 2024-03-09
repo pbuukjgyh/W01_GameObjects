@@ -27,9 +27,18 @@ struct StepArrayStruct
 	std::vector<float> times{};
 	std::vector<T> arr{};
 
+	int samples{};
+
+	ImGui::PlotConfig plot{};
+
 	StepArrayStruct(int size)
 	{
 		arr.resize(size);
+
+		plot.frame_size = { 125,75 };
+		plot.tooltip.show = true;
+		plot.grid_x.size = 1.0f; 
+		plot.tooltip.format = "x=%.2f, y=%.2f";
 	}
 
 	bool ShouldUpdate()
@@ -45,13 +54,44 @@ struct StepArrayStruct
 		}
 		return false;
 	}
+
+	void AvrageTimes()
+	{
+		const int amountInTimes{ int(log2(1024)) + 1 };
+		for (int index = amountInTimes; index < times.size(); ++index)
+		{
+			times[index % amountInTimes] += times[index];
+		}
+
+		times.resize(amountInTimes);
+
+		for (int index = 0; index < times.size(); ++index)
+		{
+			times[index] /= amountInTimes;
+		}
+
+		plot.values.ys = times.data();
+		plot.values.count = (int)times.size();
+
+		plot.scale.min = times[times.size() - 1];
+		plot.scale.max = times[0];
+
+		isLoading = false;
+	}
+
+	void Reset()
+	{
+		isLoading = false;
+
+		samples = 0;
+	}
 };
 
 class GraphSteps : public ObjectComponent
 {
 public:
 	GraphSteps(std::shared_ptr<dae::GameObject>& pOwner);
-	~GraphSteps() = default;
+	~GraphSteps() { m_combinedPlot.values.ys_list = nullptr; };
 	GraphSteps(const GraphSteps& copy) = delete;
 	GraphSteps(GraphSteps&& move) = delete;
 	GraphSteps& operator=(const GraphSteps& toCopy) = delete;
@@ -73,8 +113,11 @@ private:
 	StepArrayStruct<int> m_intVar{sizeArr};
 	StepArrayStruct<TestObject> m_classVar{sizeArr};
 
+	ImGui::PlotConfig m_combinedPlot{};
+
 	void CalculateLoopInt();
 	void CalculateLoopClass();
 
+	void SetCombined();
 };
 
