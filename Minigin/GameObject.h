@@ -9,7 +9,7 @@ namespace dae
 {
 	class Texture2D;
 
-	class GameObject final
+	class GameObject final : public std::enable_shared_from_this<GameObject>
 	{
 		bool m_ShouldUpdateTransform;
 	public:
@@ -25,7 +25,7 @@ namespace dae
 				m_pComponents.emplace_back(std::move(newComponent));
 		}
 
-		std::shared_ptr<GameObject>& GetParent() { auto pParentShared = m_pParent.lock(); return pParentShared; }
+		GameObject* GetParent() { return m_pParent; }
 		void SetParent(GameObject* pParent, bool worldPosStays = true);
 
 		int GetChildCount() { return int(m_pChildren.size()); }
@@ -92,7 +92,7 @@ namespace dae
 		GameObject& operator=(GameObject&& other) = delete;
 
 	private:
-		void AddChild(GameObject* pChild);
+		void AddChild(std::shared_ptr<GameObject>& pChild);
 		void RemoveChild(GameObject* pChild);
 
 		bool m_shouldDestroy{ false };
@@ -102,7 +102,7 @@ namespace dae
 
 		std::vector<std::unique_ptr<ObjectComponent>> m_pComponents{};
 
-		std::weak_ptr<GameObject> m_pParent{};
+		GameObject* m_pParent{};
 		std::vector<std::shared_ptr<GameObject>> m_pChildren{};
 	};
 }

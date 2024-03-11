@@ -27,9 +27,6 @@ GraphSteps::GraphSteps(std::shared_ptr<dae::GameObject>& pOwner):
 
 void GraphSteps::Render() const
 {
-	ImGui_ImplOpenGL3_NewFrame();
-	ImGui_ImplSDL2_NewFrame();
-	ImGui::NewFrame();
 	if (ImGui::Begin("Exersize 2"))
 	{
 		ImGui::InputInt("#  samples", &m_samples, 1, 100, 1);
@@ -72,8 +69,6 @@ void GraphSteps::Render() const
 
 		ImGui::End();
 	}
-	ImGui::Render();
-	ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 }
 
 void GraphSteps::Update(float /*deltaTime*/)
