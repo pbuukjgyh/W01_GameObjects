@@ -19,6 +19,8 @@ bool dae::InputManager::ProcessInput()
 		ImGui_ImplSDL2_ProcessEvent(&e);
 	}
 
+	
+
 	return true;
 }
 

@@ -108,6 +108,9 @@
     <ClInclude Include="GraphSteps.h">
       <Filter>imgui</Filter>
     </ClInclude>
+    <ClInclude Include="Command.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ResourceManager.cpp">
@@ -184,6 +187,9 @@
     </ClCompile>
     <ClCompile Include="GraphSteps.cpp">
       <Filter>imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="Command.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
