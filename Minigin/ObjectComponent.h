@@ -28,8 +28,6 @@ public:
 	glm::vec3 getOwnerPos() const { return m_pOwner->GetWorldPosition(); }
 
 protected:
-	//The local transform: how far away is this component from it's owner
-	dae::Transform m_localTransform{};
 	dae::Transform m_transform{};
 
 	void BasicRender(dae::Texture2D* pTexture, const glm::vec3& pos)const;

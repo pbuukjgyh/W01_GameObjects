@@ -6,12 +6,15 @@
 #include <SDL_ttf.h>
 #include "Minigin.h"
 #include "InputManager.h"
+#include "InputHandler.h"
 #include "SceneManager.h"
 #include "Renderer.h"
 #include "ResourceManager.h"
 
 #include <chrono>
 #include <thread>
+
+#include <iostream>
 
 SDL_Window* g_window{};
 

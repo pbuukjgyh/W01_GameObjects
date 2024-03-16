@@ -114,6 +114,9 @@
     <ClInclude Include="Command.h">
       <Filter>Input</Filter>
     </ClInclude>
+    <ClInclude Include="InputHandler.h">
+      <Filter>Input</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ResourceManager.cpp">
@@ -192,6 +195,9 @@
       <Filter>imgui</Filter>
     </ClCompile>
     <ClCompile Include="Command.cpp">
+      <Filter>Input</Filter>
+    </ClCompile>
+    <ClCompile Include="InputHandler.cpp">
       <Filter>Input</Filter>
     </ClCompile>
   </ItemGroup>

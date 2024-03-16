@@ -12,11 +12,7 @@ void ObjectComponent::Render() const
 
 void ObjectComponent::SetPosition(const glm::vec3& newPos)
 {
-	auto componentPos = m_transform.GetPosition() - m_localTransform.GetPosition();
-
-	m_localTransform.SetPosition(newPos.x, newPos.y, newPos.z);
-
-	m_transform.SetPosition(newPos.x + componentPos.x, newPos.y + componentPos.y, newPos.z + componentPos.z);
+	m_transform.SetPosition(newPos.x, newPos.y, newPos.z);
 }
 
 void ObjectComponent::SetPosition(float x, float y, float z)
