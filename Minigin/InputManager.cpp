@@ -27,16 +27,23 @@ bool dae::InputManager::ProcessInput()
 		ImGui_ImplSDL2_ProcessEvent(&e);
 	}
 
-	for (auto& command : m_commands)
+	/*for (auto& command : m_commands)
 	{
 		if (command->m_state.second)
 		{
 			command->Execute();
 		}
-	}
+	}*/
 
-	Gamepad gp{ 0 };
-	gp.ProcessInput();
+	m_gamepad->ProcessInput();
+
+	for (auto& controllerBinding : m_controllerBindings)
+	{
+		if (m_gamepad->IsDownThisFrame(controllerBinding.first))
+		{
+			controllerBinding.second.first->Execute();
+		}
+	}
 
 	return true;
 }
@@ -45,6 +52,12 @@ void dae::InputManager::BindCommand(std::unique_ptr<Command>& command, SDL_Scanc
 {
 	//command->m_state = { keyCode, downState };
 	m_keyBindings[keyCode] = std::make_pair(std::move(command), downState);
+}
+
+void dae::InputManager::BindCommand(Command* command, WORD buttonCode, bool buttonState)
+{
+	std::pair<Command*, bool> binding(command, buttonState);
+	m_controllerBindings[buttonCode] = binding;
 }
 
 

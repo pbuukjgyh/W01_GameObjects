@@ -32,12 +32,6 @@ void Gamepad::ProcessInput()
 
 	leftTrigger = (float)state.Gamepad.bLeftTrigger / 255;
 	rightTrigger = (float)state.Gamepad.bRightTrigger / 255;
-
-	//xinput
-	if (m_buttonsPressedThisFrame & XINPUT_GAMEPAD_DPAD_LEFT)
-	{
-		std::cout << "LEFT";
-	}
 }
 
 //source: https://katyscode.wordpress.com/2013/08/30/xinput-tutorial-part-1-adding-gamepad-support-to-your-windows-game/
@@ -52,7 +46,7 @@ XINPUT_GAMEPAD* Gamepad::GetState()
 	return &state.Gamepad;
 }
 
-bool Gamepad::IsPressed(WORD button)
+bool Gamepad::IsPressed(WORD button) const
 {
 	return state.Gamepad.wButtons & button;
 }

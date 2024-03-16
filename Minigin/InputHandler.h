@@ -24,6 +24,7 @@ class Gamepad
 
 	float deadzoneX;
 	float deadzoneY;
+
 public:
 
 	Gamepad(DWORD controllerIndex) : m_previousState{}, m_currentState{}, m_controllerIndex(controllerIndex), m_buttonsPressedThisFrame{}, m_buttonsReleasedThisFrame{}, deadzoneX(0.05f), deadzoneY(0.02f) {};
@@ -40,9 +41,7 @@ public:
 
 	int  GetPort();
 	XINPUT_GAMEPAD* GetState();
-	bool CheckConnection();
-	bool Refresh();
-	bool IsPressed(WORD);
+	bool IsPressed(WORD)const;
 
 	void ProcessInput();
 

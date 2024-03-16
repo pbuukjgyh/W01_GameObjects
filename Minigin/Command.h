@@ -24,12 +24,12 @@ public:
 
 class GameActorCommand : public Command
 {
-	std::unique_ptr<ObjectComponent> m_pComponent;
+	ObjectComponent* m_pComponent;
 protected:
-	ObjectComponent* GetComponent() const { return m_pComponent.get(); }
+	ObjectComponent* GetComponent() const { return m_pComponent; }
 public:
 	GameActorCommand(ObjectComponent* pActor) : 
-		m_pComponent{ std::unique_ptr<ObjectComponent>(pActor)} {};
+		m_pComponent{pActor} {};
 
 	virtual ~GameActorCommand() = default;
 	virtual void Execute() override = 0;
