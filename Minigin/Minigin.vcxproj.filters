@@ -28,6 +28,9 @@
     <Filter Include="imgui\files">
       <UniqueIdentifier>{ee6a1b27-ff72-4384-a905-1d4ca7c65a27}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Input">
+      <UniqueIdentifier>{995cd996-45f0-4f84-a81c-41ce55430cb2}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Singleton.h">
@@ -109,7 +112,7 @@
       <Filter>imgui</Filter>
     </ClInclude>
     <ClInclude Include="Command.h">
-      <Filter>Header Files</Filter>
+      <Filter>Input</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -189,7 +192,7 @@
       <Filter>imgui</Filter>
     </ClCompile>
     <ClCompile Include="Command.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Input</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

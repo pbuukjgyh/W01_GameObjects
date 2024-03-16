@@ -10,7 +10,7 @@
 class Command 
 {
 protected:
-	//std::vector<XINPUT_STATE> m_controllerStates{};
+	std::vector<XINPUT_STATE> m_controllerStates{};
 	std::vector<std::pair<SDL_KeyboardEvent,Uint8>> m_keyStates{};
 public:
 	virtual ~Command() = default;
@@ -26,10 +26,4 @@ public:
 	GameActorCommand(ObjectComponent* pActor) : m_pComponent{ std::unique_ptr<ObjectComponent>(pActor)} {};
 	virtual ~GameActorCommand() = default;
 	virtual void Execute() override = 0;
-};
-
-class InputHandler 
-{
-public:
-	//void BindCommand(Command* command, int keyCode, bool downState);
 };
