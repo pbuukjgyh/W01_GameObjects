@@ -37,27 +37,35 @@ bool dae::InputManager::ProcessInput()
 
 	m_gamepad->ProcessInput();
 
-	for (auto& controllerBinding : m_controllerBindings)
+	/*for (auto& controllerBinding : m_controllerBindings)
 	{
 		if (m_gamepad->IsDownThisFrame(controllerBinding.first))
 		{
 			controllerBinding.second.first->Execute();
+		}
+	}*/
+	for (auto& command : m_commands)
+	{
+		if (m_gamepad->IsDownThisFrame(command->m_stateController))
+		{
+			command->Execute();
 		}
 	}
 
 	return true;
 }
 
-void dae::InputManager::BindCommand(std::unique_ptr<Command>& command, SDL_Scancode keyCode, Uint8 downState)
-{
-	//command->m_state = { keyCode, downState };
-	m_keyBindings[keyCode] = std::make_pair(std::move(command), downState);
-}
+//void dae::InputManager::BindCommand(std::unique_ptr<Command>& command, SDL_Scancode keyCode, Uint8 downState)
+//{
+//	//command->m_state = { keyCode, downState };
+//	m_keyBindings[keyCode] = std::make_pair(std::move(command), downState);
+//}
 
-void dae::InputManager::BindCommand(Command* command, WORD buttonCode, bool buttonState)
+void dae::InputManager::BindCommand(Command* command, WORD buttonCode, bool /*buttonState*/)
 {
-	std::pair<Command*, bool> binding(command, buttonState);
-	m_controllerBindings[buttonCode] = binding;
+	//m_controllerBindings[buttonCode] = std::make_pair(std::move(command), buttonState);
+	command->m_stateController = buttonCode;
+	m_commands.push_back(command);
 }
 
 

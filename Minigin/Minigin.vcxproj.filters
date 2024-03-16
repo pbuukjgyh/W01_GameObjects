@@ -117,6 +117,9 @@
     <ClInclude Include="InputHandler.h">
       <Filter>Input</Filter>
     </ClInclude>
+    <ClInclude Include="GameActor.h">
+      <Filter>Input</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ResourceManager.cpp">
