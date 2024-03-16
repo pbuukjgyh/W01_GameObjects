@@ -55,11 +55,11 @@ bool dae::InputManager::ProcessInput()
 	return true;
 }
 
-//void dae::InputManager::BindCommand(std::unique_ptr<Command>& command, SDL_Scancode keyCode, Uint8 downState)
-//{
-//	//command->m_state = { keyCode, downState };
-//	m_keyBindings[keyCode] = std::make_pair(std::move(command), downState);
-//}
+void dae::InputManager::BindCommand(Command* command, SDL_Scancode keyCode, Uint8 downState)
+{
+	//command->m_state = { keyCode, downState };
+	m_keyBindings[keyCode] = std::make_pair(std::move(command), downState);
+}
 
 void dae::InputManager::BindCommand(Command* command, WORD buttonCode, bool /*buttonState*/)
 {
