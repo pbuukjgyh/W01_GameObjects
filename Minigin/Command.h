@@ -1,11 +1,17 @@
 #pragma once
 #include <memory>
 #include <vector>
-#include "Xinput.h"
+#include <Windows.h>
+#include <XInput.h>
 #include "ObjectComponent.h"
+#include <SDL_stdinc.h>
+#include <SDL.h>
 
 class Command 
 {
+protected:
+	//std::vector<XINPUT_STATE> m_controllerStates{};
+	std::vector<std::pair<SDL_KeyboardEvent,Uint8>> m_keyStates{};
 public:
 	virtual ~Command() = default;
 	virtual void Execute() = 0;
@@ -17,7 +23,13 @@ class GameActorCommand : public Command
 protected:
 	ObjectComponent* GetComponent() const { return m_pComponent.get(); }
 public:
-	GameActorCommand(ObjectComponent* pActor) : m_pComponent{ std::make_unique<ObjectComponent>(pActor)} {};
+	GameActorCommand(ObjectComponent* pActor) : m_pComponent{ std::unique_ptr<ObjectComponent>(pActor)} {};
 	virtual ~GameActorCommand() = default;
 	virtual void Execute() override = 0;
+};
+
+class InputHandler 
+{
+public:
+	//void BindCommand(Command* command, int keyCode, bool downState);
 };
