@@ -1,13 +1,6 @@
 #pragma once
-#include "Command.h"
-
-//class InputHandler
-//{
-//public:
-//	void BindCommand(Command* command, int keyCode, bool downState);
-//
-//	void ProcessInput();
-//};
+#include <Windows.h>
+#include <Xinput.h>
 
 //Xinput
 class Gamepad

@@ -10,14 +10,13 @@ bool dae::InputManager::ProcessInput()
 		if (e.type == SDL_QUIT) {
 			return false;
 		}
-		if (e.type == SDL_KEYDOWN /* || e.type == SDL_KEYUP*/) {
+		if (e.type == SDL_KEYDOWN  || e.type == SDL_KEYUP) {
 			SDL_Scancode keycode = e.key.keysym.scancode;
 			Uint8 keystate = e.type == SDL_KEYDOWN ? SDL_PRESSED : SDL_RELEASED;
 
-			auto it = m_keyBindings.find(keycode);
-			if (it != m_keyBindings.end() && it->second.second == keystate)
+			for (auto& command : m_pCommands)
 			{
-				it->second.first->Execute();
+				command->ExecuteKeys(keycode,keystate);
 			}
 		}
 		if (e.type == SDL_MOUSEBUTTONDOWN) {
@@ -27,45 +26,19 @@ bool dae::InputManager::ProcessInput()
 		ImGui_ImplSDL2_ProcessEvent(&e);
 	}
 
-	/*for (auto& command : m_commands)
-	{
-		if (command->m_state.second)
-		{
-			command->Execute();
-		}
-	}*/
+	m_pGamepad->ProcessInput();
 
-	m_gamepad->ProcessInput();
-
-	/*for (auto& controllerBinding : m_controllerBindings)
+	for (auto& command : m_pCommands)
 	{
-		if (m_gamepad->IsDownThisFrame(controllerBinding.first))
-		{
-			controllerBinding.second.first->Execute();
-		}
-	}*/
-	for (auto& command : m_commands)
-	{
-		if (m_gamepad->IsDownThisFrame(command->m_stateController))
-		{
-			command->Execute();
-		}
+		command->ExecuteController(m_pGamepad);
 	}
 
 	return true;
 }
 
-void dae::InputManager::BindCommand(Command* command, SDL_Scancode keyCode, Uint8 downState)
+void dae::InputManager::AddCommand(Command* command)
 {
-	//command->m_state = { keyCode, downState };
-	m_keyBindings[keyCode] = std::make_pair(std::move(command), downState);
-}
-
-void dae::InputManager::BindCommand(Command* command, WORD buttonCode, bool /*buttonState*/)
-{
-	//m_controllerBindings[buttonCode] = std::make_pair(std::move(command), buttonState);
-	command->m_stateController = buttonCode;
-	m_commands.push_back(command);
+	m_pCommands.emplace_back(command);
 }
 
 

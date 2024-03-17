@@ -21,6 +21,9 @@ public:
 
 	void Step()
 	{
-		std::cout << "Step";
+		auto pOwner{ getOwner() };
+		auto pos{ pOwner->GetWorldPosition() };
+		pos.x += 1;
+		pOwner->SetLocalPosition(pos);
 	}
 };

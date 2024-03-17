@@ -6,18 +6,23 @@
 #include "ObjectComponent.h"
 #include <SDL_stdinc.h>
 #include <SDL.h>
-
+#include "InputHandler.h"
 
 class Command
 {
-protected:
-	// std::vector<XINPUT_STATE> m_controllerStates{};
-	// std::vector<std::pair<SDL_KeyboardEvent,Uint8>> m_keyStates{};
+	std::vector<std::pair<SDL_Scancode, Uint8>> m_statesKeys;
+	std::vector<WORD> m_statesController;
 public:
-	std::pair<int, bool> m_state;
-	WORD m_stateController;
+	void BindCommand(SDL_Scancode keyCode, Uint8 downState);
+	void BindCommand(WORD buttonCode);
 
+	void ExecuteController(const std::unique_ptr<Gamepad>& pGamepad);
+	void ExecuteKeys(SDL_Scancode currentKeycode, Uint8 currentKeystate);
+
+	Command() = default;
 	virtual ~Command() = default;
+
+protected:
 	virtual void Execute() = 0;
 };
 
