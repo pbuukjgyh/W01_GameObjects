@@ -40,7 +40,7 @@ public:
 	GameActorCommand(ObjectComponent* pActor) :
 		m_pActor{pActor} {};
 
-	virtual ~GameActorCommand() { delete m_pActor; };
+	virtual ~GameActorCommand() = default;
 	virtual void Execute() override = 0;
 };
 

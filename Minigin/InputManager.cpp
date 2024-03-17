@@ -36,9 +36,9 @@ bool dae::InputManager::ProcessInput()
 	return true;
 }
 
-void dae::InputManager::AddCommand(Command* command)
+void dae::InputManager::AddCommand(std::unique_ptr<Command>& command)
 {
-	m_pCommands.emplace_back(command);
+	m_pCommands.emplace_back(std::move(command));
 }
 
 

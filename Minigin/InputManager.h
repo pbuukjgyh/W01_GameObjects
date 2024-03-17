@@ -8,7 +8,7 @@ namespace dae
 {
 	class InputManager final : public Singleton<InputManager>
 	{
-		std::vector<Command*> m_pCommands{};
+		std::vector<std::unique_ptr<Command>> m_pCommands{};
 		std::unordered_map<SDL_Scancode, std::pair<Command*, Uint8>> m_keyBindings;
 
 		std::unique_ptr<Gamepad> m_pGamepad{std::make_unique<Gamepad>(0)};
@@ -18,10 +18,8 @@ namespace dae
 	public:
 		bool ProcessInput();
 
-		/*void BindCommand(Command* command, SDL_Scancode keyCode, Uint8 downState);
-		void BindCommand(Command* command, WORD buttonCode);*/
-
-		void AddCommand(Command* command);
+		//we set ownership to the commands
+		void AddCommand(std::unique_ptr<Command>& command);
 	};
 
 }
