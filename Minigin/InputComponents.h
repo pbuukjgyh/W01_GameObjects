@@ -16,6 +16,12 @@ public:
 	Walk(std::shared_ptr<dae::GameObject> pOwner) : ObjectComponent(pOwner) { m_pOwner = pOwner; };
 	Walk(std::shared_ptr<dae::GameObject> pOwner, float speed) : ObjectComponent(pOwner), m_speed{speed} { m_pOwner = pOwner; };
 
+	virtual ~Walk() = default;
+	Walk(const Walk& other) = delete;
+	Walk(Walk&& other) = delete;
+	Walk& operator=(const Walk& other) = delete;
+	Walk& operator=(Walk&& other) = delete;
+
 	virtual void Update(float deltaTime) override
 	{
 		m_deltaTime = deltaTime;

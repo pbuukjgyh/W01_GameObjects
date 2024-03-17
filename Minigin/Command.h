@@ -23,6 +23,11 @@ public:
 	Command() = default;
 	virtual ~Command() = default;
 
+	Command(const Command& other) = delete;
+	Command(Command&& other) = delete;
+	Command& operator=(const Command& other) = delete;
+	Command& operator=(Command&& other) = delete;
+
 protected:
 	virtual void Execute() = 0;
 };
@@ -41,6 +46,12 @@ public:
 		m_pActor{pActor} {};
 
 	virtual ~GameActorCommand() = default;
+
+	GameActorCommand(const GameActorCommand& other) = delete;
+	GameActorCommand(GameActorCommand&& other) = delete;
+	GameActorCommand& operator=(const GameActorCommand& other) = delete;
+	GameActorCommand& operator=(GameActorCommand&& other) = delete;
+
 	virtual void Execute() override = 0;
 };
 
@@ -56,6 +67,11 @@ public:
 
 	virtual ~WalkCommandHorizontal() = default;
 
+	WalkCommandHorizontal(const WalkCommandHorizontal& other) = delete;
+	WalkCommandHorizontal(WalkCommandHorizontal&& other) = delete;
+	WalkCommandHorizontal& operator=(const WalkCommandHorizontal& other) = delete;
+	WalkCommandHorizontal& operator=(WalkCommandHorizontal&& other) = delete;
+
 	virtual void Execute() override { m_pWalk->StepHorizontal(); };
 };
 
@@ -63,6 +79,13 @@ class WalkCommandVertical : public WalkCommandHorizontal
 {
 public:
 	WalkCommandVertical(Walk* pWalk) : WalkCommandHorizontal(pWalk) {}
+
+	virtual ~WalkCommandVertical() = default;
+
+	WalkCommandVertical(const WalkCommandVertical& other) = delete;
+	WalkCommandVertical(WalkCommandVertical&& other) = delete;
+	WalkCommandVertical& operator=(const WalkCommandVertical& other) = delete;
+	WalkCommandVertical& operator=(WalkCommandVertical&& other) = delete;
 
 	virtual void Execute() override { m_pWalk->StepVertical(); };
 };

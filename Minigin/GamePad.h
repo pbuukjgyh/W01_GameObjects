@@ -22,8 +22,11 @@ public:
 
 	Gamepad(DWORD controllerIndex) : m_previousState{}, m_currentState{}, m_controllerIndex(controllerIndex), m_buttonsPressedThisFrame{}, m_buttonsReleasedThisFrame{}, deadzoneX(0.05f), deadzoneY(0.02f) {};
 
-	//Gamepad() : deadzoneX(0.05f), deadzoneY(0.02f) {}
-	//Gamepad(float dzX, float dzY) : deadzoneX(dzX), deadzoneY(dzY) {}
+	~Gamepad() = default;
+	Gamepad(const Gamepad& other) = delete;
+	Gamepad(Gamepad&& other) = delete;
+	Gamepad& operator=(const Gamepad& other) = delete;
+	Gamepad& operator=(Gamepad&& other) = delete;
 
 	float leftStickX{};
 	float leftStickY{};
