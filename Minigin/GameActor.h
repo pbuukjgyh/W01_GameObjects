@@ -4,26 +4,33 @@
 #include "ObjectComponent.h"
 
 
-//class GameActor
-//{
-//	std::shared_ptr<dae::GameObject> m_pOwner;
-//
-//protected:
-//	std::shared_ptr<dae::GameObject> GetOwner() { return m_pOwner; }
-//
-//	GameActor(std::shared_ptr<dae::GameObject> pOwner) : m_pOwner{pOwner}{}
-//};
-
 class Walk : public ObjectComponent
 {
-public:
-	Walk(std::shared_ptr<dae::GameObject> pOwner) : ObjectComponent(pOwner) {};
+	float m_deltaTime{};
 
-	void Step()
+	float m_speed{ .5f };
+
+	std::shared_ptr<dae::GameObject> m_pOwner;
+
+public:
+	Walk(std::shared_ptr<dae::GameObject> pOwner) : ObjectComponent(pOwner) { m_pOwner = pOwner; };
+	Walk(std::shared_ptr<dae::GameObject> pOwner, float speed) : ObjectComponent(pOwner), m_speed{speed} { m_pOwner = pOwner; };
+
+	virtual void Update(float deltaTime) override
 	{
-		auto pOwner{ getOwner() };
-		auto pos{ pOwner->GetWorldPosition() };
-		pos.x += 1;
-		pOwner->SetLocalPosition(pos);
+		m_deltaTime = deltaTime;
+	}
+
+	void StepHorizontal()
+	{
+		auto pos{ m_pOwner->GetWorldPosition() };
+		pos.x += m_deltaTime * m_speed;
+		m_pOwner->SetLocalPosition(pos);
+	}
+	void StepVertical()
+	{
+		auto pos{ m_pOwner->GetWorldPosition() };
+		pos.y += m_deltaTime * m_speed;
+		m_pOwner->SetLocalPosition(pos);
 	}
 };

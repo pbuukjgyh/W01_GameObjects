@@ -44,16 +44,25 @@ public:
 	virtual void Execute() override = 0;
 };
 
-class WalkCommand : public GameActorCommand
+class WalkCommandHorizontal : public GameActorCommand
 {
+protected:
 	Walk* m_pWalk;
 public:
-	WalkCommand(Walk* pWalk) : GameActorCommand(pWalk) 
+	WalkCommandHorizontal(Walk* pWalk) : GameActorCommand(pWalk)
 	{ 
 		m_pWalk = pWalk; 
 	}
 
-	virtual ~WalkCommand() { delete m_pWalk; };
+	virtual ~WalkCommandHorizontal() = default;
 
-	void Execute() override { m_pWalk->Step(); };
+	virtual void Execute() override { m_pWalk->StepHorizontal(); };
+};
+
+class WalkCommandVertical : public WalkCommandHorizontal
+{
+public:
+	WalkCommandVertical(Walk* pWalk) : WalkCommandHorizontal(pWalk) {}
+
+	virtual void Execute() override { m_pWalk->StepVertical(); };
 };
