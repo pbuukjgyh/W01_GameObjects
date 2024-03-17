@@ -5,16 +5,17 @@ void Command::BindCommand(SDL_Scancode keyCode, Uint8 downState)
 	m_statesKeys.emplace_back(std::pair{ keyCode, downState });
 }
 
-void Command::BindCommand(WORD buttonCode)
+void Command::BindCommand(unsigned int buttonCode)
 {
-	m_statesController.emplace_back(buttonCode);
+	ControllerInput state{ buttonCode };
+	m_statesController.emplace_back(state);
 }
 
 void Command::ExecuteController(const std::unique_ptr<Gamepad>& pGamepad)
 {
 	for (auto& controllerState : m_statesController)
 	{
-		if (pGamepad->IsDownThisFrame(controllerState))
+		if (pGamepad->IsPressed(controllerState.GetButton()))
 		{
 			Execute();
 		}

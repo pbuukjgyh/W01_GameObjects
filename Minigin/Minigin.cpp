@@ -6,7 +6,6 @@
 #include <SDL_ttf.h>
 #include "Minigin.h"
 #include "InputManager.h"
-#include "InputHandler.h"
 #include "SceneManager.h"
 #include "Renderer.h"
 #include "ResourceManager.h"

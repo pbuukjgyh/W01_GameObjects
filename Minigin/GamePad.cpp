@@ -1,4 +1,4 @@
-#include "InputHandler.h"
+#include "GamePad.h"
 #include <iostream>
 
 void Gamepad::ProcessInput()
@@ -44,9 +44,4 @@ int Gamepad::GetPort()
 XINPUT_GAMEPAD* Gamepad::GetState()
 {
 	return &state.Gamepad;
-}
-
-bool Gamepad::IsPressed(WORD button) const
-{
-	return state.Gamepad.wButtons & button;
 }

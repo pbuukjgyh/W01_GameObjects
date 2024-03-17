@@ -34,7 +34,6 @@ public:
 
 	int  GetPort();
 	XINPUT_GAMEPAD* GetState();
-	bool IsPressed(WORD)const;
 
 	void ProcessInput();
 

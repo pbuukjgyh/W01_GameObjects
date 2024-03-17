@@ -6,15 +6,16 @@
 #include "ObjectComponent.h"
 #include <SDL_stdinc.h>
 #include <SDL.h>
-#include "InputHandler.h"
+#include "GamePad.h"
+#include "ControllerPimpl.h"
 
-class Command
+class Command abstract
 {
 	std::vector<std::pair<SDL_Scancode, Uint8>> m_statesKeys;
-	std::vector<WORD> m_statesController;
+	std::vector<ControllerInput> m_statesController;
 public:
 	void BindCommand(SDL_Scancode keyCode, Uint8 downState);
-	void BindCommand(WORD buttonCode);
+	void BindCommand(unsigned int buttonCode);
 
 	void ExecuteController(const std::unique_ptr<Gamepad>& pGamepad);
 	void ExecuteKeys(SDL_Scancode currentKeycode, Uint8 currentKeystate);
@@ -26,11 +27,10 @@ protected:
 	virtual void Execute() = 0;
 };
 
-#include "InputHandler.h"
 #include <iostream>
-#include "GameActor.h"
+#include "InputComponents.h"
 
-class GameActorCommand : public Command
+class GameActorCommand abstract : public Command
 {
 private:
 	ObjectComponent* m_pActor;
