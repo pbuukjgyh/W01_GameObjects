@@ -114,14 +114,14 @@
     <ClInclude Include="GamePad.h">
       <Filter>Input</Filter>
     </ClInclude>
-    <ClInclude Include="InputComponents.h">
-      <Filter>Input</Filter>
-    </ClInclude>
     <ClInclude Include="InputManager.h">
       <Filter>Input</Filter>
     </ClInclude>
     <ClInclude Include="ControllerPimpl.h">
       <Filter>Input</Filter>
+    </ClInclude>
+    <ClInclude Include="Time.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

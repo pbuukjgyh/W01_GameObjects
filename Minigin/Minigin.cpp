@@ -10,6 +10,8 @@
 #include "Renderer.h"
 #include "ResourceManager.h"
 
+#include "Time.h"
+
 #include <chrono>
 #include <thread>
 
@@ -91,22 +93,24 @@ void dae::Minigin::Run(const std::function<void()>& load)
 	//We take a lower MPS to get a higher FPS (MPS is inverse FPS)
 	const std::chrono::milliseconds ms_per_frame{ 10 };
 
-	auto last_time = std::chrono::high_resolution_clock::now();
+	Time& time = Time::GetInstance();
+
+	time.lastTime = std::chrono::high_resolution_clock::now();
 	
 	bool doContinue = true;
 	while (doContinue)
 	{
-		const auto current_time = std::chrono::high_resolution_clock::now();
+		time.currentTime = std::chrono::high_resolution_clock::now();
 
-		auto passing_time{current_time - last_time};
-		const float delta_time = std::chrono::duration<float, std::milli>(passing_time).count();
-		last_time = current_time;
+		time.passingTime = { time.currentTime - time.lastTime};
+		time.deltaTime = std::chrono::duration<float, std::milli>(time.passingTime).count();
+		time.lastTime = time.currentTime;
 
 		doContinue = input.ProcessInput();
-		sceneManager.Update(delta_time);
+		sceneManager.Update(time.deltaTime);
 		renderer.Render();
 
-		const auto sleep_time = current_time + std::chrono::milliseconds(ms_per_frame) - std::chrono::high_resolution_clock::now();
-		std::this_thread::sleep_for(sleep_time);
+		time.sleepTime = time.currentTime + std::chrono::milliseconds(ms_per_frame) - std::chrono::high_resolution_clock::now();
+		std::this_thread::sleep_for(time.sleepTime);
 	}
 }

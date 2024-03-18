@@ -79,7 +79,7 @@ void dae::GameObject::SetLocalPosition(const glm::vec3& pos)
 
 	for (auto& component : m_pComponents)
 	{
-		component->SetPosition(GetWorldPosition() + m_localPosition);
+		component->SetPosition(m_localPosition);
 	}
 
 	SetPositionDirty();

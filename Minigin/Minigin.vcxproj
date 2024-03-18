@@ -196,7 +196,6 @@
     <ClInclude Include="ControllerPimpl.h" />
     <ClInclude Include="Font.h" />
     <ClInclude Include="FPSComponent.h" />
-    <ClInclude Include="InputComponents.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="GraphSteps.h" />
     <ClInclude Include="GamePad.h" />
@@ -212,6 +211,7 @@
     <ClInclude Include="TextComponent.h" />
     <ClInclude Include="Texture2D.h" />
     <ClInclude Include="TextureComponent.h" />
+    <ClInclude Include="Time.h" />
     <ClInclude Include="Transform.h" />
   </ItemGroup>
   <ItemGroup>

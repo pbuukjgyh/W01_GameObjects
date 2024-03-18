@@ -9,6 +9,8 @@
 #include "GamePad.h"
 #include "ControllerPimpl.h"
 
+#include "Time.h"
+
 class Command abstract
 {
 	std::vector<std::pair<SDL_Scancode, Uint8>> m_statesKeys;
@@ -33,17 +35,16 @@ protected:
 };
 
 #include <iostream>
-#include "InputComponents.h"
 
 class GameActorCommand abstract : public Command
 {
 private:
-	ObjectComponent* m_pActor;
+	std::shared_ptr<dae::GameObject> m_pOwner;
 protected:
-	ObjectComponent* GetComponent() const { return m_pActor; }
+	dae::GameObject* GetOwner() const { return m_pOwner.get(); }
 public:
-	GameActorCommand(ObjectComponent* pActor) :
-		m_pActor{pActor} {};
+	GameActorCommand(std::shared_ptr<dae::GameObject> pOwner) :
+		m_pOwner{pOwner} {};
 
 	virtual ~GameActorCommand() = default;
 
@@ -55,37 +56,25 @@ public:
 	virtual void Execute() override = 0;
 };
 
-class WalkCommandHorizontal : public GameActorCommand
+class WalkCommand : public GameActorCommand
 {
-protected:
-	Walk* m_pWalk;
+	glm::vec3 m_direction;
+	float m_speed{ .5f };
 public:
-	WalkCommandHorizontal(Walk* pWalk) : GameActorCommand(pWalk)
+	WalkCommand(std::shared_ptr<dae::GameObject>& pOwner, const glm::vec3& direction) : GameActorCommand(pOwner) { m_direction = direction; }
+	WalkCommand(std::shared_ptr<dae::GameObject>& pOwner, const glm::vec3& direction, float speed) : WalkCommand(pOwner, direction) { m_speed = speed; }
+
+	virtual ~WalkCommand() = default;
+
+	WalkCommand(const WalkCommand& other) = delete;
+	WalkCommand(WalkCommand&& other) = delete;
+	WalkCommand& operator=(const WalkCommand& other) = delete;
+	WalkCommand& operator=(WalkCommand&& other) = delete;
+
+	virtual void Execute() override 
 	{ 
-		m_pWalk = pWalk; 
-	}
-
-	virtual ~WalkCommandHorizontal() = default;
-
-	WalkCommandHorizontal(const WalkCommandHorizontal& other) = delete;
-	WalkCommandHorizontal(WalkCommandHorizontal&& other) = delete;
-	WalkCommandHorizontal& operator=(const WalkCommandHorizontal& other) = delete;
-	WalkCommandHorizontal& operator=(WalkCommandHorizontal&& other) = delete;
-
-	virtual void Execute() override { m_pWalk->StepHorizontal(); };
-};
-
-class WalkCommandVertical : public WalkCommandHorizontal
-{
-public:
-	WalkCommandVertical(Walk* pWalk) : WalkCommandHorizontal(pWalk) {}
-
-	virtual ~WalkCommandVertical() = default;
-
-	WalkCommandVertical(const WalkCommandVertical& other) = delete;
-	WalkCommandVertical(WalkCommandVertical&& other) = delete;
-	WalkCommandVertical& operator=(const WalkCommandVertical& other) = delete;
-	WalkCommandVertical& operator=(WalkCommandVertical&& other) = delete;
-
-	virtual void Execute() override { m_pWalk->StepVertical(); };
+		auto pos{ GetOwner()->GetWorldPosition()};
+		pos += m_direction * m_speed * Time::GetInstance().deltaTime;
+		GetOwner()->SetLocalPosition(pos);
+	};
 };
