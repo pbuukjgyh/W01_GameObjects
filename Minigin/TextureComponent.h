@@ -8,8 +8,8 @@
 class TextureComponent : public ObjectComponent
 {
 public:
-	TextureComponent(std::shared_ptr<dae::GameObject>& pOwner):ObjectComponent(pOwner) {};
-	TextureComponent(std::shared_ptr<dae::GameObject>& pOwner,const std::string& fileName);
+	TextureComponent(std::shared_ptr<dae::GameObject> pOwner):ObjectComponent(pOwner) {};
+	TextureComponent(std::shared_ptr<dae::GameObject> pOwner,const std::string& fileName);
 	virtual ~TextureComponent() = default;
 	TextureComponent(const TextureComponent& copy) = delete;
 	TextureComponent(TextureComponent&& move) = delete;

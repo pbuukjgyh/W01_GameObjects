@@ -5,9 +5,9 @@
 class RotatingComponent: public ObjectComponent
 {
 public:
-	RotatingComponent(std::shared_ptr<dae::GameObject>& pOwner);
-	RotatingComponent(std::shared_ptr<dae::GameObject>& pOwner, float radius) : RotatingComponent(pOwner){ m_radius = radius / 100; };
-	RotatingComponent(std::shared_ptr<dae::GameObject>& pOwner, float radius, float speed) : RotatingComponent(pOwner, radius) { m_speed = speed; };
+	RotatingComponent(std::shared_ptr<dae::GameObject> pOwner);
+	RotatingComponent(std::shared_ptr<dae::GameObject> pOwner, float radius) : RotatingComponent(pOwner){ m_radius = radius / 100; };
+	RotatingComponent(std::shared_ptr<dae::GameObject> pOwner, float radius, float speed) : RotatingComponent(pOwner, radius) { m_speed = speed; };
 	virtual ~RotatingComponent() = default;
 	RotatingComponent(const RotatingComponent& copy) = delete;
 	RotatingComponent(RotatingComponent&& move) = delete;

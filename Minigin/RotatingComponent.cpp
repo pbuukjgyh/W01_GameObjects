@@ -1,6 +1,6 @@
 #include "RotatingComponent.h"
 
-RotatingComponent::RotatingComponent(std::shared_ptr<dae::GameObject>& pOwner): ObjectComponent(pOwner)
+RotatingComponent::RotatingComponent(std::shared_ptr<dae::GameObject> pOwner): ObjectComponent(pOwner)
 {
 	auto ownerPosition{pOwner->GetWorldPosition()};
 

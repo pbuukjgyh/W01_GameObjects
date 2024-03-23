@@ -3,6 +3,7 @@
 #include "Transform.h"
 
 #include <vector>
+#include "Observer.h"
 class ObjectComponent;
 
 namespace dae
@@ -104,5 +105,7 @@ namespace dae
 
 		GameObject* m_pParent{};
 		std::vector<std::shared_ptr<GameObject>> m_pChildren{};
+
+		std::vector<std::shared_ptr<Observer>> m_pObservers{};
 	};
 }

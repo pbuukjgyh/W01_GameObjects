@@ -8,7 +8,7 @@ class ObjectComponent
 {
 	std::shared_ptr<dae::GameObject> m_pOwner;
 public:
-	ObjectComponent(std::shared_ptr<dae::GameObject>& pOwner) :m_pOwner{ pOwner } { };
+	ObjectComponent(std::shared_ptr<dae::GameObject> pOwner) :m_pOwner{ pOwner } { };
 	virtual ~ObjectComponent() = default;
 	ObjectComponent(const ObjectComponent& copy) = delete;
 	ObjectComponent(ObjectComponent&& move) = delete;
