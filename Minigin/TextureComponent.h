@@ -4,6 +4,7 @@
 #include <string>
 #include "Texture2D.h"
 #include <memory>
+#include "GameObject.h"
 
 class TextureComponent : public ObjectComponent
 {

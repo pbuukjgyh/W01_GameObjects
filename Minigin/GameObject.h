@@ -53,7 +53,7 @@ namespace dae
 			for (const auto& pComp : m_pComponents) {
 				if (std::unique_ptr<T> pDerived = std::dynamic_pointer_cast<T>(pComp))
 				{
-					components.push_back(pDerived);
+					components.push_back(std::move(pDerived));
 				}
 			}
 			return components;
@@ -106,6 +106,7 @@ namespace dae
 		GameObject* m_pParent{};
 		std::vector<std::shared_ptr<GameObject>> m_pChildren{};
 
-		std::vector<std::shared_ptr<Observer>> m_pObservers{};
+		//std::vector<std::shared_ptr<Observer>> m_pObservers{};
+		std::vector<Observer*> m_pObservers{};
 	};
 }
