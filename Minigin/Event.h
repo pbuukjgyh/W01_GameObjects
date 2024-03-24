@@ -3,8 +3,7 @@
 enum struct EventType
 {
 	PlayerDied,
-	PointsAddedSmall,
-	PointsAddedBig
+	PointsAdded
 };
 
 struct Event

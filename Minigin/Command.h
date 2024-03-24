@@ -10,7 +10,7 @@
 #include "ControllerPimpl.h"
 
 #include "Time.h"
-#include "Health.h"
+#include "Health and Score.h"
 
 class Command abstract
 {
@@ -89,5 +89,18 @@ public:
 	void Execute() override
 	{
 		m_pHealth->RemoveLife();
+	};
+};
+
+class ScoreCommand : public GameActorCommand
+{
+	Score* m_pScore;
+	int m_scoreAdd{};
+public:
+	ScoreCommand(std::shared_ptr<dae::GameObject>& pOwner, int score) : GameActorCommand(pOwner) { m_pScore = pOwner->GetComponent<Score>(); m_scoreAdd = score; }
+
+	void Execute() override
+	{
+		m_pScore->AddScore(m_scoreAdd);
 	};
 };

@@ -35,18 +35,13 @@ public:
 class PointsDisplay : public Observer
 {
 public:
+	PointsDisplay(dae::GameObject* pDisplayObj) : Observer(pDisplayObj) {};
+
 	virtual void Notify(EventType event, dae::GameObject* pActor) override
 	{
 		switch (event)
 		{
-		case EventType::PointsAddedSmall:
-			if (auto pText = GetSubject()->GetComponent<dae::TextComponent>(); pText != nullptr)
-			{
-				pText->SetText("Score: " + std::to_string(pActor->GetComponent<Score>()->GetScore()));
-			}
-			break;
-
-		case EventType::PointsAddedBig:
+		case EventType::PointsAdded:
 			if (auto pText = GetSubject()->GetComponent<dae::TextComponent>(); pText != nullptr)
 			{
 				pText->SetText("Score: " + std::to_string(pActor->GetComponent<Score>()->GetScore()));
