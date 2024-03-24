@@ -10,6 +10,7 @@
 #include "ControllerPimpl.h"
 
 #include "Time.h"
+#include "Health.h"
 
 class Command abstract
 {
@@ -76,5 +77,17 @@ public:
 		auto pos{ GetOwner()->GetWorldPosition()};
 		pos += m_direction * m_speed * Time::GetInstance().deltaTime;
 		GetOwner()->SetLocalPosition(pos);
+	};
+};
+
+class HurtCommand : public GameActorCommand
+{
+	Health* m_pHealth;
+public:
+	HurtCommand(std::shared_ptr<dae::GameObject>& pOwner) : GameActorCommand(pOwner) { m_pHealth = pOwner->GetComponent<Health>(); }
+
+	void Execute() override
+	{
+		m_pHealth->RemoveLife();
 	};
 };

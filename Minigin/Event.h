@@ -6,7 +6,6 @@ enum struct EventType
 	PickedUp
 };
 
-
 struct Event
 {
 	static const int m_maxArguments = 8;

@@ -204,6 +204,7 @@
     <ClInclude Include="InputManager.h" />
     <ClInclude Include="Minigin.h" />
     <ClInclude Include="ObjectComponent.h" />
+    <ClInclude Include="Observer Classes.h" />
     <ClInclude Include="Observer.h" />
     <ClInclude Include="Renderer.h" />
     <ClInclude Include="ResourceManager.h" />

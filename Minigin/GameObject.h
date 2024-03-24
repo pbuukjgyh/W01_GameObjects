@@ -3,8 +3,12 @@
 #include "Transform.h"
 
 #include <vector>
-#include "Observer.h"
+
 class ObjectComponent;
+
+#ifndef GAMEOBJECT_H
+#define GAMEOBJECT_H
+#include "Observer.h"
 
 namespace dae
 {
@@ -59,12 +63,24 @@ namespace dae
 			return components;
 		}
 		//returns the first of a type
-		template <typename T>
+		/*template <typename T>
 		std::unique_ptr<T> GetComponent()
 		{
 			std::vector<std::unique_ptr<T>> components;
 			for (const auto& pComp : m_pComponents) {
 				if (std::unique_ptr<T> pDerived = std::dynamic_pointer_cast<T>(pComp))
+				{
+					return pDerived;
+				}
+			}
+			return nullptr;
+		}*/
+
+		template <typename T>
+		T* GetComponent()
+		{
+			for (const auto& pComp : m_pComponents) {
+				if (T* pDerived = dynamic_cast<T*>(pComp.get()))
 				{
 					return pDerived;
 				}
@@ -77,6 +93,33 @@ namespace dae
 		{
 			return GetComponent<T>() != nullptr;
 		}
+
+		//Observers
+		template<typename T>
+		void AddObserver(std::shared_ptr<T>& newObserver)
+		{
+			if (std::is_base_of<Observer, T>::value)
+				m_pObservers.emplace_back(newObserver);
+		}
+
+		template <typename T>
+		void RemoveObserver()
+		{
+			m_pObservers.erase(std::remove_if(m_pObservers.begin(), m_pObservers.end(),
+				[](const std::shared_ptr<ObjectComponent>& observer)
+				{
+					return dynamic_cast<T*>(observer.get()) != nullptr;
+				}), m_pObservers.end());
+		}
+
+		void NotifyObservers(EventType event) 
+		{
+			for (auto observer : m_pObservers)
+			{
+				observer->Notify(event, this);
+			}
+		}
+
 
 		void Destroy() { m_shouldDestroy = true; }
 		bool IsBeingDestroyed() { return m_shouldDestroy; }
@@ -106,7 +149,8 @@ namespace dae
 		GameObject* m_pParent{};
 		std::vector<std::shared_ptr<GameObject>> m_pChildren{};
 
-		//std::vector<std::shared_ptr<Observer>> m_pObservers{};
-		std::vector<Observer*> m_pObservers{};
+		std::vector<std::shared_ptr<Observer>> m_pObservers{};
 	};
 }
+
+#endif
