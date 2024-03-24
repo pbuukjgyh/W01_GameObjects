@@ -123,7 +123,7 @@
     <ClInclude Include="Time.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Health.h">
+    <ClInclude Include="Health and Score.h">
       <Filter>Components\Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Observer.h">
@@ -218,7 +218,7 @@
     <ClCompile Include="InputManager.cpp">
       <Filter>Input</Filter>
     </ClCompile>
-    <ClCompile Include="Health.cpp">
+    <ClCompile Include="Health and Score.cpp">
       <Filter>Components\Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Observer.cpp">

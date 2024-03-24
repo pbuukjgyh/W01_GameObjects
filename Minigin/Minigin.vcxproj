@@ -200,7 +200,7 @@
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="GraphSteps.h" />
     <ClInclude Include="GamePad.h" />
-    <ClInclude Include="Health.h" />
+    <ClInclude Include="Health and Score.h" />
     <ClInclude Include="InputManager.h" />
     <ClInclude Include="Minigin.h" />
     <ClInclude Include="ObjectComponent.h" />
@@ -233,7 +233,7 @@
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="GraphSteps.cpp" />
     <ClCompile Include="GamePad.cpp" />
-    <ClCompile Include="Health.cpp" />
+    <ClCompile Include="Health and Score.cpp" />
     <ClCompile Include="InputManager.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Minigin.cpp" />

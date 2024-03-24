@@ -11,8 +11,11 @@ namespace dae{class GameObject;}
 
 class Observer
 {
+	dae::GameObject* m_pSubject;
+protected:
+	dae::GameObject* GetSubject() { return m_pSubject; }
 public:
-	Observer() = default;
+	Observer(dae::GameObject* pSubject) :m_pSubject{ pSubject } {};
 	virtual ~Observer() = default;
 	virtual void Notify(EventType event, dae::GameObject* pActor) = 0;
 };
